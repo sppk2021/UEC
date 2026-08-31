@@ -1,0 +1,6 @@
+{
+  "name": "U Education Consultant Agency",
+  "description": "Premier educational consultancy bridging ambitious students with global academic opportunities in Italy, Thailand, China, and Malaysia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

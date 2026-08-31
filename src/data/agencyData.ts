@@ -1,0 +1,457 @@
+import {
+  StudyDestination,
+  CoreService,
+  OfficeLocation,
+  PartnerCompany,
+  AgencyInfo,
+  HeroContent,
+  IntroContent,
+  PillarsData,
+  FaqItem,
+  LeadItem,
+  WebsiteData,
+} from '../types';
+
+export const AGENCY_INFO: AgencyInfo = {
+  name: 'U Education Consultant Agency',
+  shortName: 'U Education',
+  tagline: 'Bridging ambitious students with global academic opportunities.',
+  phone: '+959977859474',
+  cleanPhone: '+959977859474',
+  whatsappNumber: '959977859474',
+  email: 'eduinfo.ueca@gmail.com',
+  viberNumber: '+959977859474',
+  workingHours: 'Monday – Saturday: 9:00 AM – 5:30 PM (MMT)',
+  ethicalPledge:
+    'We commit to honest assessment profiles, zero hidden agency markups, and completely unbiased institution match recommendations tailored solely to student success.',
+};
+
+export const HERO_CONTENT: HeroContent = {
+  brandLine1: 'U Education',
+  brandLine2: 'Consultant Agency',
+  pillTagline: 'Bridging ambitious students with global academic opportunities.',
+  summaryText:
+    'Premier international education consultancy providing end-to-end guidance from academic career counseling and university admissions to visa legal processing and pre-departure preparation across Italy, Thailand, China, and Malaysia.',
+  acceptingIntakesText: 'Now Accepting 2026 – 2027 Intakes',
+  imageUrl:
+    'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop',
+};
+
+export const INTRO_CONTENT: IntroContent = {
+  leadText:
+    'is a premier educational consultancy dedicated to bridging the gap between ambitious students and world-class global education. Founded with a vision to simplify the complex journey of international studies, we provide end-to-end solutions ranging from academic career counseling and university placement to visa processing and pre-departure preparation.',
+  supportingText:
+    'We believe that every student possesses unique potential. Our role is to align their academic background, personal strengths, and career aspirations with the right international institutions, ensuring a seamless transition into global higher education.',
+  affirmationText:
+    'Transforming study abroad dreams into structured, achievable pathways with transparent guidance every step of the way.',
+  imageUrl:
+    'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1000&auto=format&fit=crop',
+};
+
+
+export const CORE_SERVICES: CoreService[] = [
+  {
+    id: 'academic-profiling',
+    title: 'Academic Profiling',
+    tag: 'Step 01 • Assessment',
+    description: "We provide one-on-one assessments to align each student's academic background, budget, and long-term career goals with the ideal global study destination.",
+    iconName: 'UserCheck',
+    benefits: [
+      'Comprehensive transcript & GPA evaluation',
+      'Realistic budget planning and cost-of-living forecasts',
+      'Personalized study destination matching (Italy, Thailand, China, Malaysia)',
+      'Long-term career pathway mapping and post-study opportunities',
+    ],
+    deliverables: ['Custom Student Assessment Report', 'Curated University Shortlist', 'Roadmap Timeline'],
+  },
+  {
+    id: 'admissions-placement',
+    title: 'Admissions & University Placement',
+    tag: 'Step 02 • Application',
+    description: 'Our team manages the entire application process, from strategically selecting accredited universities to mentoring students on compelling Statements of Purpose (SOP).',
+    iconName: 'GraduationCap',
+    benefits: [
+      'Direct liaison with university admissions officers',
+      'Professional Statement of Purpose (SOP) & Essay coaching',
+      'Curriculum Vitae (CV) and Letter of Recommendation (LOR) review',
+      'Application tracking with 100% submission deadline guarantee',
+    ],
+    deliverables: ['Polished Application Package', 'Official University Offer Letters', 'Scholarship Nominations'],
+  },
+  {
+    id: 'visa-legal',
+    title: 'Visa & Legal Documentation Support',
+    tag: 'Step 03 • Legal Compliance',
+    description: 'We guide students through the complex visa process by carefully reviewing the necessary documents and guidance to ensure strict immigration compliance.',
+    iconName: 'FileCheck2',
+    benefits: [
+      'Step-by-step embassy document compilation checklist',
+      'Financial sponsorship and bank statement verification',
+      'Mock visa interview coaching sessions with experienced counselors',
+      'Declaration of Value (DOV) / CIMEA assistance for European universities',
+    ],
+    deliverables: ['Verified Visa Dossier', 'Embassy Appointment Booking', 'Mock Interview Readiness Cert'],
+  },
+  {
+    id: 'language-prep',
+    title: 'Language & Test Preparation Programs',
+    tag: 'Step 04 • Test Prep',
+    description: 'We offer targeted coaching for essential proficiency exams like IELTS, TOEFL, and Duolingo to help students meet their academic entry requirements.',
+    iconName: 'BookOpenCheck',
+    benefits: [
+      'Diagnostic mock exams to pinpoint strengths and areas for growth',
+      'Targeted strategies for IELTS (Academic), TOEFL iBT, and Duolingo English Test',
+      'Small-group interactive classes and flexible 1-on-1 tutoring',
+      'Digital Learning Hub access with authentic exam question banks',
+    ],
+    deliverables: ['Diagnostic Score Card', 'Targeted Score Achievement Plan', 'Full Practice Exam Access'],
+  },
+  {
+    id: 'pre-departure',
+    title: 'Pre-Departure & Transition Support',
+    tag: 'Step 05 • Global Arrival',
+    description: 'Our support continues until students safely arrive on campus by coordinating flights, securing accommodation, and providing all the necessary supports.',
+    iconName: 'PlaneTakeoff',
+    benefits: [
+      'Safe student dormitory and private apartment booking assistance',
+      'Discounted student airfare coordination and luggage advisory',
+      'Arrival airport pickup coordination and local SIM / banking setup',
+      'Support through safe transition and check-in till the start of the first lesson',
+    ],
+    deliverables: ['Secured Dormitory Confirmation', 'Pre-Departure Orientation Kit', '24/7 Arrival Support Contact'],
+  },
+];
+
+export const STUDY_DESTINATIONS: StudyDestination[] = [
+  {
+    id: 'italy',
+    country: 'Italy',
+    code: 'IT',
+    flagEmoji: '🇮🇹',
+    tagline: 'World-Renowned European Education & Public Scholarships',
+    description: 'Offers highly competitive, global ranked European degrees with exceptional research infrastructure and merit-based public scholarships.',
+    highlightBadge: 'Top European Value • DSU Scholarships',
+    scholarshipInfo: 'Regional DSU/EDISU scholarships offering tuition waivers, free student housing, and annual living stipends of up to €6,000–€8,000/year.',
+    avgTuition: '€900 – €3,500 / year (Public Universities)',
+    livingCost: '€600 – €900 / month',
+    languageReq: 'IELTS 6.0+ / Duolingo / English Medium Instruction',
+    intakes: ['September / October (Main Intake)', 'February / March (Select Programs)'],
+    popularPrograms: [
+      'Engineering & Computer Science',
+      'Business Administration & Economics',
+      'Architecture & Industrial Design',
+      'Medicine & Surgery (IMAT in English)',
+      'Fashion & Luxury Brand Management',
+    ],
+    topUniversities: [
+      'University of Messina (Our European Support Hub)',
+      'Politecnico di Milano',
+      'Sapienza University of Rome',
+      'University of Bologna',
+      'University of Padua',
+      'Politecnico di Torino',
+    ],
+    flagColors: ['#008C45', '#F4F5F0', '#CD212A'],
+    bgGradient: 'from-emerald-950 via-slate-900 to-rose-950',
+  },
+  {
+    id: 'thailand',
+    country: 'Thailand',
+    code: 'TH',
+    flagEmoji: '🇹🇭',
+    tagline: 'Accessible International Curricula & Regional Synergy',
+    description: 'Delivers comprehensive, internationally recognized curricula with strong global academic partnerships at an exceptionally sustainable cost of study.',
+    highlightBadge: 'Proximity Hub • MTKN Group Support',
+    scholarshipInfo: 'Presidential, Merit, and ASEAN partner scholarships covering 25% to 100% of international tuition fees.',
+    avgTuition: '$2,500 – $6,500 / year',
+    livingCost: '$350 – $600 / month',
+    languageReq: 'IELTS 5.5+ / Duolingo / University Placement Test',
+    intakes: ['August / September (Semester 1)', 'January / February (Semester 2)'],
+    popularPrograms: [
+      'International Business & Logistics',
+      'Information & Communication Technology',
+      'Tourism & Hospitality Management',
+      'Digital Media & Graphic Arts',
+      'Biomedical Sciences',
+    ],
+    topUniversities: [
+      'Chulalongkorn University (International Programs)',
+      'Mahidol University',
+      'Assumption University (ABAC)',
+      'Thammasat University',
+      'Bangkok University International',
+      'Stamford International University',
+    ],
+    flagColors: ['#A51931', '#2D2A4A', '#A51931'],
+    bgGradient: 'from-red-950 via-blue-950 to-red-950',
+  },
+  {
+    id: 'china',
+    country: 'China',
+    code: 'CN',
+    flagEmoji: '🇨🇳',
+    tagline: 'World-Class Technological Hub & Full Government Scholarships',
+    description: 'Features top-ranked global universities backed by extensive state research funds and comprehensive institutional scholarships for high-achieving scholars.',
+    highlightBadge: 'CSC & Belt and Road Scholarships',
+    scholarshipInfo: 'Chinese Government Scholarship (CSC), Provincial & University Scholarships offering 100% tuition waiver, free on-campus accommodation, and monthly stipend (2,500–3,500 RMB/month).',
+    avgTuition: '$2,200 – $5,000 / year (Often 100% funded)',
+    livingCost: '$300 – $550 / month',
+    languageReq: 'English-Taught: IELTS 6.0+ or English Proficiency Certificate / Chinese-Taught: HSK 4-5',
+    intakes: ['September (Major Intake)', 'March (Spring / Language Programs)'],
+    popularPrograms: [
+      'Software Engineering & Artificial Intelligence',
+      'Civil & Mechanical Engineering',
+      'International Economics & Trade (MBBS in English)',
+      'Clinical Medicine (MBBS)',
+      'E-Commerce & Digital Marketing',
+    ],
+    topUniversities: [
+      'Tsinghua University',
+      'Peking University',
+      'Zhejiang University',
+      'Shanghai Jiao Tong University',
+      'Wuhan University',
+      'Nanjing University',
+    ],
+    flagColors: ['#DE2910', '#FFDE00'],
+    bgGradient: 'from-amber-950 via-red-950 to-amber-950',
+  },
+  {
+    id: 'malaysia',
+    country: 'Malaysia',
+    code: 'MY',
+    flagEmoji: '🇲🇾',
+    tagline: 'Premier Transnational Hub & British/Australian Branch Campuses',
+    description: 'Serves as a major transnational education hub where students can earn accredited degrees from top-tier British and Australian branch campuses.',
+    highlightBadge: 'UK & Australia Dual Degrees',
+    scholarshipInfo: 'High-achiever merit rebates, Dean’s awards, and early-bird bursaries up to 50% tuition reduction.',
+    avgTuition: '$3,800 – $9,500 / year (Branch campuses: $8,000–$14,000)',
+    livingCost: '$350 – $600 / month',
+    languageReq: 'IELTS 5.5 – 6.5 / Duolingo 95+ / Pearson PTE',
+    intakes: ['January / February', 'May / June', 'September / October'],
+    popularPrograms: [
+      'Computer Science, Cyber Security & Data Science',
+      'Accounting, Finance & Fintech (ACCA Accredited)',
+      'Mechanical & Aerospace Engineering',
+      'Mass Communication & Media',
+      'Biotechnology & Pharmaceutical Sciences',
+    ],
+    topUniversities: [
+      'Monash University Malaysia (Australia Branch)',
+      'University of Nottingham Malaysia (UK Branch)',
+      'University of Malaya (UM - Top 60 World)',
+      'Taylor’s University (QS 5 Stars)',
+      'Sunway University',
+      'Asia Pacific University (APU - Tech Leader)',
+    ],
+    flagColors: ['#010066', '#CC0000', '#FFCC00'],
+    bgGradient: 'from-blue-950 via-slate-900 to-amber-950',
+  },
+];
+
+export const OFFICE_LOCATIONS: OfficeLocation[] = [
+  {
+    id: 'yangon',
+    city: 'Yangon',
+    country: 'Myanmar',
+    title: 'Yangon Main Counseling Center',
+    address: 'Min Phone Pyae: No(8) Mya Thiri Lane, Mayangone Tsp, Yangon',
+    phone: '+959977859474',
+    email: 'eduinfo.ueca@gmail.com',
+    role: 'Headquarters, Profile Evaluations, Visa Documentations & Test Preparation Support',
+    hours: 'Mon – Sat: 9:00 AM – 5:30 PM',
+    landmark: 'Karaweik Palace & Royal Lake',
+    landmarkImage: 'https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=1000&auto=format&fit=crop',
+    statusBadge: 'Open for In-Person & Walk-In Appointments',
+    coordinates: { lat: 16.8661, lng: 96.1951 },
+  },
+  {
+    id: 'mandalay',
+    city: 'Mandalay',
+    country: 'Myanmar',
+    title: 'Mandalay Regional Center',
+    address: '72(C), Between Myawady Mingyi Rd and 113 St, Chan Mya Tharsi Tsp, Mandalay',
+    phone: '+959977859474',
+    email: 'eduinfo.ueca@gmail.com',
+    role: 'Upper Myanmar Student Admissions, Counseling & Application Verification',
+    hours: 'Mon – Sat: 9:00 AM – 5:30 PM',
+    landmark: 'Mandalay Royal Palace & Cultural Center',
+    landmarkImage: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=1000&auto=format&fit=crop',
+    statusBadge: 'Open for In-Person Counseling',
+    coordinates: { lat: 21.9588, lng: 96.0891 },
+  },
+  {
+    id: 'bangkok',
+    city: 'Bangkok',
+    country: 'Thailand',
+    title: 'Bangkok Regional Liaison Hub',
+    address: 'MTKN Thailand Group Corporate Hub, Bangkok, Thailand',
+    phone: '+959977859474',
+    email: 'eduinfo.ueca@gmail.com',
+    role: 'Southeast Asia Regional Admissions, University Partner Relations & Student Transit Support',
+    hours: 'Mon – Fri: 9:00 AM – 6:00 PM (ICT)',
+    landmark: 'Wat Arun & Chao Phraya Cultural Corridor',
+    landmarkImage: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?q=80&w=1000&auto=format&fit=crop',
+    statusBadge: 'Regional Corporate Hub',
+    coordinates: { lat: 13.7563, lng: 100.5018 },
+  },
+  {
+    id: 'messina',
+    city: 'Messina',
+    country: 'Italy',
+    title: 'Messina European Support Office',
+    address: 'Piazza del Duomo / University District, Messina, Sicily, Italy',
+    phone: '+959977859474',
+    email: 'eduinfo.ueca@gmail.com',
+    role: 'European Student On-Arrival Assistance, Dorm Check-in, DSU Regional Scholarship Care & Resident Permit Support',
+    hours: 'Mon – Fri: 9:30 AM – 5:30 PM (CET)',
+    landmark: 'Duomo di Messina & Mediterranean Gateway',
+    landmarkImage: 'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1000&auto=format&fit=crop',
+    statusBadge: 'European Student Welfare Center',
+    coordinates: { lat: 38.1938, lng: 15.554 },
+  },
+];
+
+export const PARTNERS_DATA: PartnerCompany[] = [
+  {
+    id: 'mtkn-thailand',
+    name: 'MTKN Thailand',
+    subtitle: 'Main Group of Companies',
+    badge: 'Main Corporate Group',
+    description:
+      'MTKN Thailand Group stands as a dynamic and diversified enterprise dedicated to creating long-term value through innovation, operational excellence, and strategic collaboration. By connecting businesses, people, and opportunities across Southeast Asia and beyond, MTKN Thailand remain committed to driving sustainable growth while delivering quality, reliability, and excellence in everything they do.',
+    location: 'Bangkok, Thailand',
+    keyServices: [
+      'Strategic International Academic Partnerships',
+      'Cross-Border Institutional Coordination',
+      'Student Transit & Regional Welfare Hub',
+      'Sustainable Education Growth Across Southeast Asia',
+    ],
+    accentColor: '#E5A823',
+  },
+  {
+    id: 'dir-myanmar',
+    name: 'Digital Information Resources',
+    subtitle: 'Delegated Partner of Myanmar',
+    badge: 'Delegated Partner • Est. 2018',
+    description:
+      'Digital Information Resources (DIR), established in 2018, specializes in delivering high-quality education services across various fields, including book publication, curriculum distribution and educational consulting services. DIR is committed to fostering comprehensive educational experiences and also offers a Digital Learning Hub, providing students with interactive and practical learning sessions to build essential skills in a digital environment.',
+    yearEstablished: '2018',
+    location: 'Yangon & Mandalay, Myanmar',
+    keyServices: [
+      'Educational Consultancy & Student Advising',
+      'Digital Learning Hub Interactive Sessions',
+      'Academic Book Publication & Curriculum Distribution',
+      'Essential Digital & Language Skills Building',
+    ],
+    accentColor: '#5A1226',
+  },
+];
+
+export const PILLARS_DATA: PillarsData = {
+  vision: {
+    title: 'Vision',
+    tag: 'Future Outlook',
+    description:
+      'To become the globally covered student-centric international education consultancy, empowering the next generation of global leaders through accessible, high-quality higher education.',
+  },
+  mission: {
+    title: 'Mission',
+    tag: 'Our Daily Purpose',
+    description:
+      'To guide genuine, ambitious students toward reputable international institutions by providing transparent, honest, and highly personalized consulting services. We strive to take the stress out of the application process, turning studying abroad into an inspiring and achievable reality.',
+  },
+  commitment: {
+    title: 'Commitment',
+    tag: 'End-to-End Care',
+    description:
+      'Our commitment extends far beyond simple offer letters. We support students from initial preparation up until their safe transition and check-in at their dorms and till the start of their first lesson.',
+  },
+};
+
+export const FAQS: FaqItem[] = [
+  {
+    id: 'faq-1',
+    question: 'How do I know if I qualify for scholarships in Italy or China?',
+    answer:
+      'In Italy, regional public scholarships (such as DSU/EDISU) are awarded based on family economic status (ISEE-Parificato) and academic merit, providing full tuition waiver and cash living allowances. In China, CSC and university scholarships offer 100% tuition coverage and monthly stipends for qualified applicants. Our team conducts an in-depth transcript and financial evaluation during your free academic profiling session to match you with maximum scholarship opportunities.',
+    category: 'Scholarships',
+  },
+  {
+    id: 'faq-2',
+    question: 'Can I study abroad without IELTS or if my score is currently low?',
+    answer:
+      'Yes. Many partner institutions in Thailand, Malaysia, and select universities in Europe accept alternative tests like Duolingo English Test (DET), Medium of Instruction (MOI) certificates, or internal university English proficiency exams. Additionally, our Digital Learning Hub and test preparation coaching can help you raise your IELTS score to your target band quickly.',
+    category: 'Requirements',
+  },
+  {
+    id: 'faq-3',
+    question: 'What is the "Zero Hidden Agency Markup" guarantee?',
+    answer:
+      'We operate with total financial transparency. All university tuition fees, embassy visa fees, and insurance payments are paid directly by you or via official university and embassy portals. We never inflate university tuition or add secret surcharges.',
+    category: 'Financials',
+  },
+  {
+    id: 'faq-4',
+    question: 'How does U Education assist after I receive my visa?',
+    answer:
+      'Our dedicated pre-departure and European / Asian support hubs assist you with student flight bookings, baggage advice, verified dormitory check-in, airport pickup coordination, local SIM cards, and resident permit (Permesso di Soggiorno / Visa extension) registration until you attend your very first class on campus.',
+    category: 'Post-Visa Support',
+  },
+  {
+    id: 'faq-5',
+    question: 'How do I schedule an in-person appointment in Yangon or Mandalay?',
+    answer:
+      'You can easily submit the consultation form on this website, call or Viber/WhatsApp our hotline at +959977859474, or email eduinfo.ueca@gmail.com. We welcome students and parents for complimentary one-on-one counseling at our Mayangone (Yangon) and Chan Mya Tharsi (Mandalay) counseling centers.',
+    category: 'Appointments',
+  },
+];
+
+export const INITIAL_LEADS: LeadItem[] = [
+  {
+    id: 'lead-1',
+    fullName: 'Min Thura Hein',
+    phone: '09789123456',
+    email: 'minthura.h@gmail.com',
+    currentEducation: 'Grade 12 / Matriculation',
+    targetDestination: 'Italy (Scholarships & Public Universities)',
+    targetMajor: 'Computer Science & Artificial Intelligence',
+    preferredOffice: 'Yangon Office (Mayangone Tsp)',
+    englishTest: 'IELTS Band 6.5',
+    intakeYear: '2026 (Fall / September Intake)',
+    notes: 'Interested in University of Messina and DSU regional scholarship guidelines.',
+    status: 'new',
+    createdAt: '2026-08-30T10:15:00Z',
+  },
+  {
+    id: 'lead-2',
+    fullName: 'Su Myat Noe',
+    phone: '09450098765',
+    email: 'sumyatnoe.edu@gmail.com',
+    currentEducation: 'Bachelor\'s Degree Holder',
+    targetDestination: 'Thailand (International Programs & Proximity)',
+    targetMajor: 'Master of International Business (MBA)',
+    preferredOffice: 'Mandalay Office (Chan Mya Tharsi Tsp)',
+    englishTest: 'Duolingo 120',
+    intakeYear: '2026 / 2027 (Spring / January Intake)',
+    notes: 'Seeking evening or executive MBA with MTKN Thailand transit support.',
+    status: 'contacted',
+    createdAt: '2026-08-29T14:30:00Z',
+  },
+];
+
+export const INITIAL_WEBSITE_DATA: WebsiteData = {
+  agencyInfo: AGENCY_INFO,
+  heroContent: HERO_CONTENT,
+  introContent: INTRO_CONTENT,
+  services: CORE_SERVICES,
+  destinations: STUDY_DESTINATIONS,
+  offices: OFFICE_LOCATIONS,
+  partners: PARTNERS_DATA,
+  pillars: PILLARS_DATA,
+  faqs: FAQS,
+  leads: INITIAL_LEADS,
+  adminPasscode: 'admin123',
+  lastUpdated: new Date().toISOString(),
+};
+

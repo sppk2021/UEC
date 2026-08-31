@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --brand-burgundy: #5A1226;
+    --brand-burgundy-dark: #3F0C1B;
+    --brand-burgundy-light: #721832;
+    --brand-gold: #E5A823;
+    --brand-gold-hover: #D49515;
+    --brand-gold-light: #FBF0D9;
+    --brand-navy: #1F3852;
+    --brand-cream: #FAF8F5;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    color: #1e293b;
+    background-color: #FAF8F5;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+}
+
+.font-crest {
+  font-family: 'Cinzel', serif;
+}
+
+/* Dot grid pattern background matching style guide slide 2 & slide 8 */
+.bg-dot-pattern {
+  background-image: radial-gradient(#E5A823 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+}
+
+.bg-dot-pattern-burgundy {
+  background-image: radial-gradient(rgba(90, 18, 38, 0.25) 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+}
+
+.bg-dot-pattern-white {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.25) 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF8F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #E5A823;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #5A1226;
+}
