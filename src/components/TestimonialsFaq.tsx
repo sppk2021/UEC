@@ -5,7 +5,6 @@ import {
   Sparkles,
   ArrowRight,
   ShieldCheck,
-  CheckCircle2,
   FileCheck,
   Plane,
   GraduationCap,

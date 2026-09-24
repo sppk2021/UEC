@@ -2,18 +2,14 @@ import React, { useState } from 'react';
 import {
   MapPin,
   Phone,
-  Mail,
   Clock,
-  ExternalLink,
   Navigation,
-  CheckCircle2,
   Building,
   Sparkles,
 } from 'lucide-react';
 import { ChevronDeco } from './ChevronDeco';
 import { CrestLogo } from './CrestLogo';
 import { useWebsite } from '../context/WebsiteContext';
-import { OfficeLocation } from '../types';
 
 export const OfficeLocations: React.FC = () => {
   const { data } = useWebsite();
@@ -45,6 +41,11 @@ export const OfficeLocations: React.FC = () => {
       headerBg: 'bg-[#C2410C]',
       textAccent: 'text-[#C2410C]',
       border: 'border-[#C2410C]',
+    },
+    cambodia: {
+      headerBg: 'bg-[#1D4ED8]',
+      textAccent: 'text-[#1D4ED8]',
+      border: 'border-[#1D4ED8]',
     },
     messina: {
       headerBg: 'bg-[#5A1226]',
@@ -86,8 +87,8 @@ export const OfficeLocations: React.FC = () => {
           </p>
         </div>
 
-        {/* 4 Landmark Photo Cards matching Slide 7 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Landmark Photo Cards matching Slide 7 */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
           {offices.map((office) => {
             const isSelected = office.id === activeOfficeId;
             const style = officeStyles[office.id] || officeStyles.yangon;

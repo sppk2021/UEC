@@ -11,14 +11,56 @@ import {
   PillarsData,
   FaqItem,
   LeadItem,
+  BlogPost,
 } from '../types';
 import { INITIAL_WEBSITE_DATA } from '../data/agencyData';
 
-const LOCAL_STORAGE_KEY = 'ueca_website_custom_data_v1';
+const LOCAL_STORAGE_KEY = 'ueca_website_custom_data_v4';
 const AUTH_STORAGE_KEY = 'ueca_admin_session_auth_v1';
+
+export type PageId = 'home' | 'about' | 'services' | 'destinations' | 'blog' | 'offices' | 'contact';
+
+// Parse initial page from browser URL or hash
+const getInitialPageFromUrl = (): PageId => {
+  if (typeof window === 'undefined') return 'home';
+  const path = window.location.pathname.toLowerCase().replace(/^\//, '').replace(/\/$/, '');
+  const hash = window.location.hash.toLowerCase().replace(/^#\/?/, '');
+  const target = hash || path;
+  
+  if (target.startsWith('about')) return 'about';
+  if (target.startsWith('service')) return 'services';
+  if (target.startsWith('destination')) return 'destinations';
+  if (target.startsWith('office')) return 'offices';
+  if (target.startsWith('blog') || target.startsWith('stor')) return 'blog';
+  if (target.startsWith('contact') || target.startsWith('assessment')) return 'contact';
+  return 'home';
+};
+
+// Check if current browser URL corresponds to the /admin route
+const checkIsAdminRoute = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  const path = window.location.pathname.toLowerCase();
+  const hash = window.location.hash.toLowerCase();
+  const search = window.location.search.toLowerCase();
+  return (
+    path === '/admin' ||
+    path === '/admin/' ||
+    path.startsWith('/admin') ||
+    hash === '#admin' ||
+    hash.startsWith('#/admin') ||
+    search.includes('admin=true') ||
+    search.includes('admin=1')
+  );
+};
 
 interface WebsiteContextType {
   data: WebsiteData;
+  activePage: PageId;
+  setActivePage: (page: PageId, options?: { scrollToTop?: boolean; articleSlug?: string; destinationId?: string }) => void;
+  selectedArticleSlug: string | null;
+  setSelectedArticleSlug: (slug: string | null) => void;
+  selectedDestinationId: string | null;
+  setSelectedDestinationId: (id: string | null) => void;
   isAdminOpen: boolean;
   setIsAdminOpen: (open: boolean) => void;
   isAdminAuthenticated: boolean;
@@ -47,6 +89,9 @@ interface WebsiteContextType {
   updateFaqs: (faqs: FaqItem[]) => void;
   addFaq: (faq: FaqItem) => void;
   deleteFaq: (id: string) => void;
+  updateBlogPosts: (posts: BlogPost[]) => void;
+  addBlogPost: (post: BlogPost) => void;
+  deleteBlogPost: (id: string) => void;
   addLead: (lead: Omit<LeadItem, 'id' | 'createdAt' | 'status'>) => void;
   updateLeadStatus: (id: string, status: LeadItem['status']) => void;
   deleteLead: (id: string) => void;
@@ -66,15 +111,38 @@ export const WebsiteProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
+        
+        let mergedDestinations = INITIAL_WEBSITE_DATA.destinations;
+        if (Array.isArray(parsed.destinations) && parsed.destinations.length >= 5 && parsed.destinations.some((d: any) => d.id === 'cambodia')) {
+          mergedDestinations = parsed.destinations;
+        } else {
+          mergedDestinations = INITIAL_WEBSITE_DATA.destinations;
+        }
+
+        let mergedOffices = INITIAL_WEBSITE_DATA.offices;
+        if (Array.isArray(parsed.offices) && parsed.offices.length >= 5 && parsed.offices.some((o: any) => o.id === 'cambodia')) {
+          mergedOffices = parsed.offices;
+        } else {
+          mergedOffices = INITIAL_WEBSITE_DATA.offices;
+        }
+
         // Merge with initial data to ensure all keys exist
+        const mergedIntroContent = { ...INITIAL_WEBSITE_DATA.introContent, ...(parsed.introContent || {}) };
+        if (!mergedIntroContent.imageUrl || mergedIntroContent.imageUrl.includes('photo-1523050854058-8df90110c9f1')) {
+          mergedIntroContent.imageUrl = INITIAL_WEBSITE_DATA.introContent.imageUrl;
+        }
+
         return {
           ...INITIAL_WEBSITE_DATA,
           ...parsed,
           agencyInfo: { ...INITIAL_WEBSITE_DATA.agencyInfo, ...(parsed.agencyInfo || {}) },
           heroContent: { ...INITIAL_WEBSITE_DATA.heroContent, ...(parsed.heroContent || {}) },
-          introContent: { ...INITIAL_WEBSITE_DATA.introContent, ...(parsed.introContent || {}) },
+          introContent: mergedIntroContent,
+          destinations: mergedDestinations,
+          offices: mergedOffices,
           pillars: { ...INITIAL_WEBSITE_DATA.pillars, ...(parsed.pillars || {}) },
           leads: Array.isArray(parsed.leads) ? parsed.leads : INITIAL_WEBSITE_DATA.leads,
+          blogPosts: Array.isArray(parsed.blogPosts) && parsed.blogPosts.length > 0 ? parsed.blogPosts : INITIAL_WEBSITE_DATA.blogPosts,
         };
       }
     } catch (e) {
@@ -83,11 +151,119 @@ export const WebsiteProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return INITIAL_WEBSITE_DATA;
   });
 
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
-  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
+  const [activePage, setActivePageState] = useState<PageId>(() => getInitialPageFromUrl());
+  const [selectedArticleSlug, setSelectedArticleSlug] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null;
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('article') || null;
+  });
+  const [selectedDestinationId, setSelectedDestinationId] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null;
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('destination') || null;
+  });
+
+  const [isAdminOpen, setIsAdminOpenState] = useState<boolean>(() => {
+    return checkIsAdminRoute();
+  });
+
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
     return sessionStorage.getItem(AUTH_STORAGE_KEY) === 'true';
   });
+
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const setActivePage = (page: PageId, options?: { scrollToTop?: boolean; articleSlug?: string; destinationId?: string }) => {
+    setActivePageState(page);
+    if (options?.articleSlug !== undefined) {
+      setSelectedArticleSlug(options.articleSlug);
+    }
+    if (options?.destinationId !== undefined) {
+      setSelectedDestinationId(options.destinationId);
+    }
+
+    if (typeof window !== 'undefined') {
+      const queryParts: string[] = [];
+      if (options?.destinationId) {
+        queryParts.push(`destination=${encodeURIComponent(options.destinationId)}`);
+      }
+      if (options?.articleSlug) {
+        queryParts.push(`article=${encodeURIComponent(options.articleSlug)}`);
+      }
+      const queryString = queryParts.length > 0 ? `?${queryParts.join('&')}` : '';
+      const targetHash = page === 'home' ? '' : `#${page}${queryString}`;
+      window.history.pushState(
+        { page, articleSlug: options?.articleSlug, destinationId: options?.destinationId },
+        '',
+        targetHash || window.location.pathname
+      );
+      
+      if (options?.scrollToTop !== false) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  };
+
+  // Sync open state with browser URL route (/admin)
+  const setIsAdminOpen = (open: boolean) => {
+    setIsAdminOpenState(open);
+    if (typeof window !== 'undefined') {
+      if (open) {
+        if (!window.location.pathname.startsWith('/admin') && window.location.hash !== '#admin') {
+          window.history.pushState({ admin: true }, '', '/admin');
+        }
+      } else {
+        if (window.location.pathname.startsWith('/admin') || window.location.hash === '#admin') {
+          window.history.pushState({ admin: false }, '', '/');
+        }
+      }
+    }
+  };
+
+  // Listen to popstate, hashchange, and URL changes
+  useEffect(() => {
+    const handleLocationChange = () => {
+      const isRoute = checkIsAdminRoute();
+      setIsAdminOpenState(isRoute);
+
+      const parsedPage = getInitialPageFromUrl();
+      setActivePageState(parsedPage);
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const art = urlParams.get('article');
+      if (art) {
+        setSelectedArticleSlug(art);
+      }
+    };
+
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+
+    // Keyboard shortcut for administrators: Ctrl+Shift+A or Cmd+Shift+A
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+        e.preventDefault();
+        setIsAdminOpenState((prev) => {
+          const next = !prev;
+          if (next) {
+            window.history.pushState({ admin: true }, '', '/admin');
+          } else {
+            window.history.pushState({ admin: false }, '', '/');
+          }
+          return next;
+        });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   useEffect(() => {
     try {
@@ -338,6 +514,29 @@ export const WebsiteProvider: React.FC<{ children: React.ReactNode }> = ({ child
     showToast('Admin passcode updated');
   };
 
+  const updateBlogPosts = (posts: BlogPost[]) => {
+    setData((prev) => ({ ...prev, blogPosts: posts, lastUpdated: new Date().toISOString() }));
+    showToast('Blog articles updated');
+  };
+
+  const addBlogPost = (post: BlogPost) => {
+    setData((prev) => ({
+      ...prev,
+      blogPosts: [post, ...(prev.blogPosts || [])],
+      lastUpdated: new Date().toISOString(),
+    }));
+    showToast(`Published article: ${post.title}`);
+  };
+
+  const deleteBlogPost = (id: string) => {
+    setData((prev) => ({
+      ...prev,
+      blogPosts: (prev.blogPosts || []).filter((b) => b.id !== id),
+      lastUpdated: new Date().toISOString(),
+    }));
+    showToast('Article deleted');
+  };
+
   const resetToDefaults = () => {
     setData(INITIAL_WEBSITE_DATA);
     localStorage.removeItem(LOCAL_STORAGE_KEY);
@@ -384,49 +583,61 @@ export const WebsiteProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
   };
 
+  const contextValue = React.useMemo(
+    () => ({
+      data,
+      activePage,
+      setActivePage,
+      selectedArticleSlug,
+      setSelectedArticleSlug,
+      selectedDestinationId,
+      setSelectedDestinationId,
+      isAdminOpen,
+      setIsAdminOpen,
+      isAdminAuthenticated,
+      setIsAdminAuthenticated,
+      verifyPasscode,
+      updateAgencyInfo,
+      updateHeroContent,
+      updateIntroContent,
+      updateServices,
+      updateService,
+      addService,
+      deleteService,
+      updateDestinations,
+      updateDestination,
+      addDestination,
+      deleteDestination,
+      updateOffices,
+      updateOffice,
+      addOffice,
+      deleteOffice,
+      updatePartners,
+      updatePartner,
+      addPartner,
+      deletePartner,
+      updatePillars,
+      updateFaqs,
+      addFaq,
+      deleteFaq,
+      updateBlogPosts,
+      addBlogPost,
+      deleteBlogPost,
+      addLead,
+      updateLeadStatus,
+      deleteLead,
+      updateAdminPasscode,
+      resetToDefaults,
+      exportDataToJson,
+      importDataFromJson,
+      toastMessage,
+      showToast,
+    }),
+    [data, activePage, selectedArticleSlug, selectedDestinationId, isAdminOpen, isAdminAuthenticated, toastMessage]
+  );
+
   return (
-    <WebsiteContext.Provider
-      value={{
-        data,
-        isAdminOpen,
-        setIsAdminOpen,
-        isAdminAuthenticated,
-        setIsAdminAuthenticated,
-        verifyPasscode,
-        updateAgencyInfo,
-        updateHeroContent,
-        updateIntroContent,
-        updateServices,
-        updateService,
-        addService,
-        deleteService,
-        updateDestinations,
-        updateDestination,
-        addDestination,
-        deleteDestination,
-        updateOffices,
-        updateOffice,
-        addOffice,
-        deleteOffice,
-        updatePartners,
-        updatePartner,
-        addPartner,
-        deletePartner,
-        updatePillars,
-        updateFaqs,
-        addFaq,
-        deleteFaq,
-        addLead,
-        updateLeadStatus,
-        deleteLead,
-        updateAdminPasscode,
-        resetToDefaults,
-        exportDataToJson,
-        importDataFromJson,
-        toastMessage,
-        showToast,
-      }}
-    >
+    <WebsiteContext.Provider value={contextValue}>
       {children}
 
       {/* Global Toast Notification */}

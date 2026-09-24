@@ -13,13 +13,8 @@ import {
 import { ChevronDeco } from './ChevronDeco';
 import { CrestLogo } from './CrestLogo';
 import { useWebsite } from '../context/WebsiteContext';
-import { CoreService } from '../types';
 
-interface CoreServicesProps {
-  onSelectService?: (service: CoreService) => void;
-}
-
-export const CoreServices: React.FC<CoreServicesProps> = ({ onSelectService }) => {
+export const CoreServices: React.FC = () => {
   const { data } = useWebsite();
   const services = data.services;
 
@@ -32,8 +27,6 @@ export const CoreServices: React.FC<CoreServicesProps> = ({ onSelectService }) =
     BookOpenCheck,
     PlaneTakeoff,
   };
-
-  const activeService = services.find((s) => s.id === activeServiceId) || services[0];
 
   return (
     <section id="services" className="relative py-16 sm:py-24 bg-[#5A1226] text-white overflow-hidden">
@@ -84,7 +77,7 @@ export const CoreServices: React.FC<CoreServicesProps> = ({ onSelectService }) =
           {/* Right Column: 5 Services Cards matching Slide 5 Pill Heads & Clean Descriptions */}
           <div className="lg:col-span-8 space-y-4">
             
-            {services.map((service, index) => {
+            {services.map((service) => {
               const Icon = iconMap[service.iconName] || GraduationCap;
               const isSelected = service.id === activeServiceId;
 

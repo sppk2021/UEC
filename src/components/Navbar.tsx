@@ -7,14 +7,11 @@ import {
   X,
   GraduationCap,
   MessageCircle,
-  ExternalLink,
   ChevronRight,
   Sparkles,
-  Sliders,
-  Lock,
 } from 'lucide-react';
 import { CrestLogo } from './CrestLogo';
-import { useWebsite } from '../context/WebsiteContext';
+import { useWebsite, PageId } from '../context/WebsiteContext';
 
 interface NavbarProps {
   onOpenConsultationModal?: () => void;
@@ -23,7 +20,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { data, setIsAdminOpen, isAdminAuthenticated } = useWebsite();
+  const { data, activePage, setActivePage } = useWebsite();
   const { agencyInfo } = data;
 
   useEffect(() => {
@@ -34,24 +31,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Introduction', href: '#introduction' },
-    { name: 'Partners & Group', href: '#partners' },
-    { name: 'Vision & Mission', href: '#vision-mission' },
-    { name: 'Core Services', href: '#services' },
-    { name: 'Destinations', href: '#destinations' },
-    { name: 'Offices', href: '#offices' },
-    { name: 'Assessment Tool', href: '#assessment-tool' },
-    { name: 'Contact', href: '#contact' },
+  const navLinks: { name: string; pageId: PageId }[] = [
+    { name: 'Home', pageId: 'home' },
+    { name: 'About Us', pageId: 'about' },
+    { name: 'Core Services', pageId: 'services' },
+    { name: 'Destinations', pageId: 'destinations' },
+    { name: 'Offices', pageId: 'offices' },
+    { name: 'Blog & Stories', pageId: 'blog' },
+    { name: 'Contact & Assessment', pageId: 'contact' },
   ];
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (e: React.MouseEvent, pageId: PageId) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    const targetElement = document.querySelector(href);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth' });
-    }
+    setActivePage(pageId);
   };
 
   return (
@@ -94,22 +87,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
               href={`https://wa.me/${agencyInfo.whatsappNumber}?text=Hello%20U%20Education%20Consultant%20Agency,%20I%20would%20like%20to%20inquire%20about%20studying%20abroad.`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[#E5A823] hover:text-white font-medium transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-[#E5A823] text-[#E5A823] hover:text-[#5A1226] font-medium transition-colors border border-amber-300/20"
             >
               <MessageCircle className="w-3.5 h-3.5" />
-              <span>WhatsApp</span>
+              <span>WhatsApp Counselor</span>
             </a>
-
-            {/* Admin Panel Quick Trigger in top bar */}
-            <button
-              type="button"
-              onClick={() => setIsAdminOpen(true)}
-              className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/10 hover:bg-[#E5A823] hover:text-[#5A1226] text-[11px] font-bold text-amber-200 transition-colors border border-amber-300/30 cursor-pointer"
-              title="Open Admin Panel to edit whole website"
-            >
-              <Sliders className="w-3 h-3 text-[#E5A823]" />
-              <span>Admin Edit</span>
-            </button>
           </div>
         </div>
       </div>
@@ -126,29 +108,32 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
           {/* Logo */}
           <a
             id="brand-logo-link"
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            href="#home"
+            onClick={(e) => handleNavClick(e, 'home')}
             className="flex items-center group cursor-pointer"
           >
             <CrestLogo />
           </a>
 
           {/* Desktop Nav Links */}
-          <div className="hidden lg:flex items-center gap-5 xl:gap-7">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                id={`nav-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="text-sm font-semibold text-slate-750 hover:text-[#5A1226] hover:border-b-2 hover:border-[#E5A823] pb-1 transition-all"
-              >
-                {link.name}
-              </a>
-            ))}
+          <div className="hidden lg:flex items-center gap-4 xl:gap-6">
+            {navLinks.map((link) => {
+              const isActive = activePage === link.pageId;
+              return (
+                <button
+                  key={link.name}
+                  id={`nav-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  onClick={(e) => handleNavClick(e, link.pageId)}
+                  className={`text-sm font-semibold transition-all py-1 border-b-2 cursor-pointer ${
+                    isActive
+                      ? 'text-[#5A1226] font-bold border-[#E5A823]'
+                      : 'text-slate-700 hover:text-[#5A1226] border-transparent hover:border-slate-300'
+                  }`}
+                >
+                  {link.name}
+                </button>
+              );
+            })}
           </div>
 
           {/* Action Button & Mobile Menu Toggle */}
@@ -159,7 +144,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
                 if (onOpenConsultationModal) {
                   onOpenConsultationModal();
                 } else {
-                  document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+                  setActivePage('contact');
                 }
               }}
               className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#5A1226] hover:bg-[#721832] text-white text-xs font-bold uppercase tracking-wider shadow-sm transition-all hover:shadow-md hover:scale-[1.02] active:scale-95 border border-[#E5A823]/40 cursor-pointer"
@@ -184,19 +169,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div className="lg:hidden bg-white border-b border-stone-200 px-5 pt-3 pb-6 shadow-xl space-y-3 animate-in fade-in slide-in-from-top-4 duration-200">
-            <div className="flex flex-col space-y-2 pt-2 border-t border-stone-100">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  id={`mobile-nav-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-slate-800 hover:bg-[#5A1226]/5 hover:text-[#5A1226] font-semibold text-sm transition-colors"
-                >
-                  <span>{link.name}</span>
-                  <ChevronRight className="w-4 h-4 text-[#E5A823]" />
-                </a>
-              ))}
+            <div className="flex flex-col space-y-1.5 pt-2 border-t border-stone-100">
+              {navLinks.map((link) => {
+                const isActive = activePage === link.pageId;
+                return (
+                  <button
+                    key={link.name}
+                    id={`mobile-nav-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    onClick={(e) => handleNavClick(e, link.pageId)}
+                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left font-semibold text-sm transition-colors cursor-pointer ${
+                      isActive
+                        ? 'bg-[#5A1226] text-white font-bold'
+                        : 'text-slate-800 hover:bg-[#5A1226]/5 hover:text-[#5A1226]'
+                    }`}
+                  >
+                    <span>{link.name}</span>
+                    <ChevronRight
+                      className={`w-4 h-4 ${isActive ? 'text-[#E5A823]' : 'text-slate-400'}`}
+                    />
+                  </button>
+                );
+              })}
             </div>
 
             <div className="pt-3 border-t border-stone-200 flex flex-col gap-2.5">
@@ -207,28 +200,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
                   if (onOpenConsultationModal) {
                     onOpenConsultationModal();
                   } else {
-                    document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+                    setActivePage('contact');
                   }
                 }}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#5A1226] text-white font-bold text-sm shadow cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#5A1226] text-white font-bold text-sm shadow-md border border-[#E5A823]/40 cursor-pointer"
               >
                 <GraduationCap className="w-4 h-4 text-[#E5A823]" />
                 <span>Book Free Student Assessment</span>
               </button>
 
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setIsAdminOpen(true);
-                }}
-                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-stone-100 text-[#5A1226] font-bold text-xs border border-dashed border-[#E5A823] cursor-pointer"
-              >
-                <Sliders className="w-3.5 h-3.5 text-[#E5A823]" />
-                <span>Open Admin Portal (Edit Site)</span>
-              </button>
-
-              <div className="flex gap-2">
+              <div className="grid grid-cols-2 gap-2">
                 <a
                   id="mobile-nav-phone-call"
                   href={`tel:${agencyInfo.cleanPhone}`}

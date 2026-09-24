@@ -1,14 +1,8 @@
 import React from 'react';
 import {
-  Building2,
-  BookOpen,
-  Sparkles,
   CheckCircle2,
   Globe,
   Layers,
-  GraduationCap,
-  ShieldCheck,
-  TrendingUp,
 } from 'lucide-react';
 import { CrestLogo } from './CrestLogo';
 import { useWebsite } from '../context/WebsiteContext';

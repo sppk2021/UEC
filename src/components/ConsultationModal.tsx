@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   X,
   Send,
   CheckCircle2,
-  Phone,
-  Mail,
-  GraduationCap,
-  Sparkles,
   ShieldCheck,
 } from 'lucide-react';
 import { CrestLogo } from './CrestLogo';
-import { AGENCY_INFO } from '../data/agencyData';
+import { useWebsite } from '../context/WebsiteContext';
 
 interface ConsultationModalProps {
   isOpen: boolean;
@@ -18,6 +14,9 @@ interface ConsultationModalProps {
 }
 
 export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, onClose }) => {
+  const { data, addLead } = useWebsite();
+  const agencyInfo = data.agencyInfo;
+
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
@@ -31,15 +30,47 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        handleClose();
+      }
+    };
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    try {
+      addLead({
+        fullName: formData.fullName,
+        phone: formData.phone,
+        email: formData.email || undefined,
+        currentEducation: 'General Inquiry',
+        targetDestination: formData.targetDestination,
+        targetMajor: formData.targetMajor || 'General Program',
+        preferredOffice: formData.preferredOffice,
+        notes: formData.notes ? `Modal Inquiry • ${formData.notes}` : 'Direct Modal Booking',
+      });
+    } catch (err) {
+      console.warn('Error recording modal lead:', err);
+    }
+
     setTimeout(() => {
       setLoading(false);
       setSubmitted(true);
-    }, 500);
+    }, 400);
   };
 
   const handleClose = () => {
@@ -48,8 +79,14 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border-2 border-[#E5A823] relative max-h-[90vh] overflow-y-auto">
+    <div
+      onClick={handleClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-3xl max-w-lg w-full p-5 sm:p-8 shadow-2xl border-2 border-[#E5A823] relative max-h-[90vh] overflow-y-auto"
+      >
         
         {/* Close Button */}
         <button
@@ -77,7 +114,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
 
             <div className="pt-3 flex flex-col gap-2">
               <a
-                href={`https://wa.me/${AGENCY_INFO.whatsappNumber}?text=Hello%20U%20Education,%20I%20just%20booked%20a%20consultation%20under%20the%20name%20${encodeURIComponent(
+                href={`https://wa.me/${agencyInfo.whatsappNumber}?text=Hello%20U%20Education,%20I%20just%20booked%20a%20consultation%20under%20the%20name%20${encodeURIComponent(
                   formData.fullName
                 )}.`}
                 target="_blank"
@@ -170,6 +207,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                   <option>Thailand (International Programs)</option>
                   <option>China (CSC Scholarships & Tech)</option>
                   <option>Malaysia (UK/Australian Branch Campuses)</option>
+                  <option>Cambodia (ASEAN Hub & Dual Degrees)</option>
                   <option>Multiple / Need Recommendation</option>
                 </select>
               </div>
@@ -185,6 +223,9 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, on
                 >
                   <option>Yangon Office (Mayangone Tsp)</option>
                   <option>Mandalay Office (Chan Mya Tharsi Tsp)</option>
+                  <option>Bangkok Liaison Office (Thailand)</option>
+                  <option>Phnom Penh Support Office (Cambodia)</option>
+                  <option>Messina European Office (Italy)</option>
                   <option>Online Zoom Video Meeting</option>
                 </select>
               </div>

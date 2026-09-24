@@ -11,6 +11,7 @@ import {
   LeadItem,
   WebsiteData,
 } from '../types';
+import { INITIAL_BLOG_POSTS } from './blogData';
 
 export const AGENCY_INFO: AgencyInfo = {
   name: 'U Education Consultant Agency',
@@ -45,7 +46,7 @@ export const INTRO_CONTENT: IntroContent = {
   affirmationText:
     'Transforming study abroad dreams into structured, achievable pathways with transparent guidance every step of the way.',
   imageUrl:
-    'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1000&auto=format&fit=crop',
+    'https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?q=80&w=1200&auto=format&fit=crop',
 };
 
 
@@ -153,6 +154,8 @@ export const STUDY_DESTINATIONS: StudyDestination[] = [
     ],
     flagColors: ['#008C45', '#F4F5F0', '#CD212A'],
     bgGradient: 'from-emerald-950 via-slate-900 to-rose-950',
+    imageUrl: 'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=1200&auto=format&fit=crop',
+    accentColor: '#008C45',
   },
   {
     id: 'thailand',
@@ -184,6 +187,8 @@ export const STUDY_DESTINATIONS: StudyDestination[] = [
     ],
     flagColors: ['#A51931', '#2D2A4A', '#A51931'],
     bgGradient: 'from-red-950 via-blue-950 to-red-950',
+    imageUrl: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?q=80&w=1200&auto=format&fit=crop',
+    accentColor: '#A51931',
   },
   {
     id: 'china',
@@ -215,6 +220,8 @@ export const STUDY_DESTINATIONS: StudyDestination[] = [
     ],
     flagColors: ['#DE2910', '#FFDE00'],
     bgGradient: 'from-amber-950 via-red-950 to-amber-950',
+    imageUrl: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?q=80&w=1200&auto=format&fit=crop',
+    accentColor: '#DE2910',
   },
   {
     id: 'malaysia',
@@ -246,6 +253,40 @@ export const STUDY_DESTINATIONS: StudyDestination[] = [
     ],
     flagColors: ['#010066', '#CC0000', '#FFCC00'],
     bgGradient: 'from-blue-950 via-slate-900 to-amber-950',
+    imageUrl: 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?q=80&w=1200&auto=format&fit=crop',
+    accentColor: '#010066',
+  },
+  {
+    id: 'cambodia',
+    country: 'Cambodia',
+    code: 'KH',
+    flagEmoji: '🇰🇭',
+    tagline: 'Fast-Growing ASEAN Academic Hub & Direct International Degrees',
+    description: 'Provides accredited international bachelor’s and master’s degree pathways, affordable living costs, and dedicated student support through our Phnom Penh liaison office.',
+    highlightBadge: 'Phnom Penh Office • ASEAN Hub',
+    scholarshipInfo: 'Regional ASEAN academic merit waivers, early-enrolment grants, and institutional scholarships covering up to 30%–50% tuition.',
+    avgTuition: '$2,000 – $5,500 / year',
+    livingCost: '$300 – $500 / month',
+    languageReq: 'IELTS 5.0+ / Duolingo 90+ / Institutional English Assessment',
+    intakes: ['October / November (Semester 1)', 'March / April (Semester 2)'],
+    popularPrograms: [
+      'International Relations & Global Diplomacy',
+      'Computer Science & Software Development',
+      'Business Administration & Fintech',
+      'Civil Engineering & Infrastructure',
+      'Hospitality & Tourism Management',
+    ],
+    topUniversities: [
+      'American University of Phnom Penh (AUPP - US Dual Degree)',
+      'Paragon International University',
+      'Royal University of Phnom Penh (RUPP)',
+      'National University of Management (NUM)',
+      'Institute of Technology of Cambodia (ITC)',
+    ],
+    flagColors: ['#032EA6', '#ED1B24', '#032EA6'],
+    bgGradient: 'from-blue-950 via-slate-900 to-red-950',
+    imageUrl: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?q=80&w=1200&auto=format&fit=crop',
+    accentColor: '#032EA6',
   },
 ];
 
@@ -254,6 +295,8 @@ export const OFFICE_LOCATIONS: OfficeLocation[] = [
     id: 'yangon',
     city: 'Yangon',
     country: 'Myanmar',
+    countryCode: 'MM',
+    flagEmoji: '🇲🇲',
     title: 'Yangon Main Counseling Center',
     address: 'Min Phone Pyae: No(8) Mya Thiri Lane, Mayangone Tsp, Yangon',
     phone: '+959977859474',
@@ -269,6 +312,8 @@ export const OFFICE_LOCATIONS: OfficeLocation[] = [
     id: 'mandalay',
     city: 'Mandalay',
     country: 'Myanmar',
+    countryCode: 'MM',
+    flagEmoji: '🇲🇲',
     title: 'Mandalay Regional Center',
     address: '72(C), Between Myawady Mingyi Rd and 113 St, Chan Mya Tharsi Tsp, Mandalay',
     phone: '+959977859474',
@@ -284,6 +329,8 @@ export const OFFICE_LOCATIONS: OfficeLocation[] = [
     id: 'bangkok',
     city: 'Bangkok',
     country: 'Thailand',
+    countryCode: 'TH',
+    flagEmoji: '🇹🇭',
     title: 'Bangkok Regional Liaison Hub',
     address: 'MTKN Thailand Group Corporate Hub, Bangkok, Thailand',
     phone: '+959977859474',
@@ -296,9 +343,28 @@ export const OFFICE_LOCATIONS: OfficeLocation[] = [
     coordinates: { lat: 13.7563, lng: 100.5018 },
   },
   {
+    id: 'cambodia',
+    city: 'Phnom Penh',
+    country: 'Cambodia',
+    countryCode: 'KH',
+    flagEmoji: '🇰🇭',
+    title: 'Phnom Penh Regional Support & Counseling Center',
+    address: 'MTKN Cambodia Liaison Hub, Preah Monivong Blvd, Doun Penh, Phnom Penh, Cambodia',
+    phone: '+959977859474',
+    email: 'eduinfo.ueca@gmail.com',
+    role: 'Cambodia Regional Admissions, Cross-Border Student Placement & Academic Counseling',
+    hours: 'Mon – Fri: 9:00 AM – 5:30 PM (ICT)',
+    landmark: 'Independence Monument & Riverside Academic District',
+    landmarkImage: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?q=80&w=1000&auto=format&fit=crop',
+    statusBadge: 'Regional Liaison Office',
+    coordinates: { lat: 11.5564, lng: 104.9282 },
+  },
+  {
     id: 'messina',
     city: 'Messina',
     country: 'Italy',
+    countryCode: 'IT',
+    flagEmoji: '🇮🇹',
     title: 'Messina European Support Office',
     address: 'Piazza del Duomo / University District, Messina, Sicily, Italy',
     phone: '+959977859474',
@@ -451,6 +517,7 @@ export const INITIAL_WEBSITE_DATA: WebsiteData = {
   pillars: PILLARS_DATA,
   faqs: FAQS,
   leads: INITIAL_LEADS,
+  blogPosts: INITIAL_BLOG_POSTS,
   adminPasscode: 'admin123',
   lastUpdated: new Date().toISOString(),
 };

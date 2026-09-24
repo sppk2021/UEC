@@ -5,20 +5,14 @@ import {
   MapPin,
   Send,
   CheckCircle2,
-  Calendar,
   Sparkles,
-  MessageCircle,
-  Clock,
-  Building2,
   ShieldCheck,
 } from 'lucide-react';
 import { ChevronDeco } from './ChevronDeco';
-import { CrestLogo } from './CrestLogo';
 import { useWebsite } from '../context/WebsiteContext';
-import { ConsultationRequest } from '../types';
 
 export const ContactSection: React.FC = () => {
-  const { data } = useWebsite();
+  const { data, addLead } = useWebsite();
   const agencyInfo = data.agencyInfo;
   const offices = data.offices;
 
@@ -42,11 +36,25 @@ export const ContactSection: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate reliable submission
+    try {
+      addLead({
+        fullName: formData.fullName,
+        phone: formData.phone,
+        email: formData.email || undefined,
+        currentEducation: formData.currentEducation,
+        targetDestination: formData.targetDestination,
+        targetMajor: formData.targetMajor || 'General Academic Pathway',
+        preferredOffice: formData.preferredOffice,
+        notes: `${formData.englishTest} • Intake: ${formData.intakeYear}${formData.notes ? ' • Note: ' + formData.notes : ''}`,
+      });
+    } catch (err) {
+      console.warn('Error recording lead:', err);
+    }
+
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
-    }, 600);
+    }, 400);
   };
 
   const yangonOffice = offices.find((o) => o.id === 'yangon') || offices[0];
@@ -172,16 +180,14 @@ export const ContactSection: React.FC = () => {
               </div>
             )}
 
-            {/* Instant WhatsApp Quick Button */}
+            {/* Direct Send Email Action Button */}
             <a
-              id="contact-whatsapp-chat"
-              href={`https://wa.me/${agencyInfo.whatsappNumber}?text=Hello%20U%20Education%20Consultant%20Agency,%20I%20would%20like%20to%20inquire%20about%20study%20abroad%20programs.`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition-all hover:scale-[1.02]"
+              id="contact-send-email-btn"
+              href={`mailto:${agencyInfo.email}?subject=Study%20Abroad%20Consultation%20Inquiry%20-%20U%20Education`}
+              className="flex items-center justify-center gap-2.5 w-full py-4 rounded-2xl bg-[#E5A823] hover:bg-[#d49515] text-[#5A1226] font-black text-sm shadow-lg transition-all hover:scale-[1.02] cursor-pointer"
             >
-              <MessageCircle className="w-5 h-5" />
-              <span>Chat Directly on WhatsApp / Viber</span>
+              <Mail className="w-5 h-5" />
+              <span>Send Official Email Inquiry</span>
             </a>
 
           </div>
@@ -242,14 +248,12 @@ export const ContactSection: React.FC = () => {
                   </button>
 
                   <a
-                    href={`https://wa.me/${agencyInfo.whatsappNumber}?text=Hello%20U%20Education,%20I%20just%20submitted%20a%20consultation%20form%20under%20name%20${encodeURIComponent(
+                    href={`mailto:${agencyInfo.email}?subject=Consultation%20Followup%20-%20${encodeURIComponent(
                       formData.fullName
-                    )}.`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-6 py-2.5 rounded-full bg-[#5A1226] text-white font-bold text-xs hover:bg-[#721832] transition-colors"
+                    )}`}
+                    className="px-6 py-2.5 rounded-full bg-[#5A1226] hover:bg-[#721832] text-white font-bold text-xs transition-colors"
                   >
-                    Confirm via WhatsApp
+                    Send Email Follow-Up
                   </a>
                 </div>
               </div>
@@ -346,6 +350,7 @@ export const ContactSection: React.FC = () => {
                       <option>Thailand (International Programs & Proximity)</option>
                       <option>China (CSC Government Scholarships & Tech)</option>
                       <option>Malaysia (British & Australian Branch Campuses)</option>
+                      <option>Cambodia (ASEAN Hub & Dual Degrees)</option>
                       <option>Multiple / Recommend Best Fit</option>
                     </select>
                   </div>
@@ -361,6 +366,9 @@ export const ContactSection: React.FC = () => {
                     >
                       <option>Yangon Office (Mayangone Tsp)</option>
                       <option>Mandalay Office (Chan Mya Tharsi Tsp)</option>
+                      <option>Bangkok Liaison Hub (Thailand)</option>
+                      <option>Phnom Penh Office (Cambodia)</option>
+                      <option>Messina European Support (Italy)</option>
                       <option>Online Video Consultation (Zoom / Google Meet)</option>
                       <option>Direct Phone Call Consultation</option>
                     </select>

@@ -44,6 +44,8 @@ export interface StudyDestination {
   topUniversities: string[];
   flagColors: string[];
   bgGradient: string;
+  imageUrl?: string;
+  accentColor?: string;
 }
 
 export interface CoreService {
@@ -60,6 +62,8 @@ export interface OfficeLocation {
   id: string;
   city: string;
   country: string;
+  countryCode?: string;
+  flagEmoji?: string;
   title: string;
   address: string;
   phone: string;
@@ -134,6 +138,26 @@ export interface ConsultationRequest {
   createdAt?: string;
 }
 
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string;
+  category: 'Student Story' | 'Study Tips' | 'Destination Guide' | 'Scholarships';
+  author: {
+    name: string;
+    role: string;
+  };
+  publishedDate: string;
+  readTime: string;
+  destinationTag?: string;
+  featured?: boolean;
+  coverImage: string;
+  summary: string;
+  content: string[];
+  keyTakeaways?: string[];
+}
+
 export interface WebsiteData {
   agencyInfo: AgencyInfo;
   heroContent: HeroContent;
@@ -145,6 +169,7 @@ export interface WebsiteData {
   pillars: PillarsData;
   faqs: FaqItem[];
   leads: LeadItem[];
+  blogPosts: BlogPost[];
   adminPasscode: string;
   lastUpdated: string;
 }

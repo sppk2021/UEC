@@ -3,14 +3,11 @@ import {
   X,
   Lock,
   Unlock,
-  Save,
   RotateCcw,
   Download,
   Upload,
   Plus,
   Trash2,
-  Edit3,
-  Check,
   Building,
   Globe2,
   GraduationCap,
@@ -20,24 +17,19 @@ import {
   HelpCircle,
   Inbox,
   KeyRound,
-  ExternalLink,
   MessageCircle,
   Phone,
-  Mail,
   ShieldAlert,
   Sparkles,
-  ChevronRight,
   Eye,
-  CheckCircle2,
+  EyeOff,
+  ArrowLeft,
   FileSpreadsheet,
 } from 'lucide-react';
 import { useWebsite } from '../../context/WebsiteContext';
 import { CrestLogo } from '../CrestLogo';
 import {
   StudyDestination,
-  CoreService,
-  OfficeLocation,
-  PartnerCompany,
   FaqItem,
   LeadItem,
 } from '../../types';
@@ -82,6 +74,7 @@ export const AdminPanel: React.FC = () => {
   >('general');
 
   const [passcodeAttempt, setPasscodeAttempt] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [passcodeError, setPasscodeError] = useState(false);
   const [newPasscode, setNewPasscode] = useState('');
 
@@ -168,11 +161,11 @@ export const AdminPanel: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="bg-[#FAF8F5] text-slate-900 rounded-3xl w-full max-w-6xl h-[94vh] flex flex-col shadow-2xl border-4 border-[#5A1226] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="bg-[#FAF8F5] text-slate-900 rounded-3xl w-full max-w-7xl h-[96vh] flex flex-col shadow-2xl border-2 sm:border-4 border-[#5A1226] overflow-hidden">
         
         {/* Top Header Bar */}
-        <div className="bg-[#5A1226] text-white px-5 sm:px-8 py-4 flex items-center justify-between border-b-2 border-[#E5A823]/60 flex-shrink-0">
+        <div className="bg-[#5A1226] text-white px-4 sm:px-8 py-3.5 sm:py-4 flex items-center justify-between border-b-2 border-[#E5A823]/60 flex-shrink-0">
           <div className="flex items-center gap-3">
             <CrestLogo variant="compact" />
             <div>
@@ -185,22 +178,33 @@ export const AdminPanel: React.FC = () => {
                 </span>
               </div>
               <p className="text-xs text-slate-300 hidden sm:block">
-                Edit website content, destination programs, core services, and manage student leads in real-time.
+                Secure management console for U Education Consultant Agency content & student leads.
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
+            {/* View Live Website button */}
+            <button
+              type="button"
+              onClick={() => setIsAdminOpen(false)}
+              className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-[#E5A823] hover:text-[#5A1226] text-white text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border border-white/20"
+              title="Return to Public Website (/)"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">View Public Website</span>
+            </button>
+
             {isAdminAuthenticated && (
               <>
                 <button
                   type="button"
                   onClick={exportDataToJson}
                   title="Export Backup JSON"
-                  className="p-2 rounded-xl bg-white/10 hover:bg-[#E5A823] hover:text-[#5A1226] text-white text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
+                  className="p-2 rounded-xl bg-white/10 hover:bg-[#E5A823] hover:text-[#5A1226] text-white text-xs font-bold transition-all flex items-center gap-1 cursor-pointer hidden md:flex"
                 >
                   <Download className="w-4 h-4" />
-                  <span className="hidden md:inline">Backup JSON</span>
+                  <span>Backup</span>
                 </button>
 
                 <button
@@ -210,7 +214,7 @@ export const AdminPanel: React.FC = () => {
                   className="p-2 rounded-xl bg-white/10 hover:bg-rose-600 text-white text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
                 >
                   <Lock className="w-4 h-4" />
-                  <span className="hidden md:inline">Lock</span>
+                  <span className="hidden md:inline">Sign Out</span>
                 </button>
               </>
             )}
@@ -219,7 +223,7 @@ export const AdminPanel: React.FC = () => {
               type="button"
               onClick={() => setIsAdminOpen(false)}
               className="p-2 rounded-xl bg-white/15 hover:bg-white text-white hover:text-[#5A1226] transition-all cursor-pointer"
-              title="Close Admin Panel"
+              title="Close Admin Portal"
             >
               <X className="w-5 h-5" />
             </button>
@@ -228,56 +232,80 @@ export const AdminPanel: React.FC = () => {
 
         {/* Auth Gate if not logged in */}
         {!isAdminAuthenticated ? (
-          <div className="flex-1 flex items-center justify-center p-6 bg-[#FAF8F5]">
-            <div className="max-w-md w-full bg-white p-8 rounded-3xl shadow-xl border-2 border-[#E5A823] text-center space-y-6">
-              <div className="w-16 h-16 rounded-2xl bg-[#5A1226] text-[#E5A823] flex items-center justify-center mx-auto shadow-md">
+          <div className="flex-1 flex items-center justify-center p-4 sm:p-6 bg-gradient-to-b from-[#FAF8F5] via-[#F4EFEB] to-[#ECE6DE] overflow-y-auto">
+            <div className="max-w-md w-full bg-white p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-[#E5A823] text-center space-y-6">
+              <div className="w-16 h-16 rounded-2xl bg-[#5A1226] text-[#E5A823] flex items-center justify-center mx-auto shadow-md border border-[#E5A823]/30">
                 <Lock className="w-8 h-8" />
               </div>
 
-              <div className="space-y-1">
+              <div className="space-y-1.5">
+                <span className="text-[11px] font-bold uppercase tracking-widest text-[#E5A823] bg-[#5A1226] px-3 py-0.5 rounded-full inline-block">
+                  Staff & Management Portal
+                </span>
                 <h3 className="text-2xl font-extrabold text-[#5A1226]">
                   Admin Authentication
                 </h3>
-                <p className="text-xs text-slate-600">
-                  Enter your management passcode to edit website contents and view consultation leads.
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Enter your management passcode to edit website contents, manage university programs, and access student consultation inquiries.
                 </p>
               </div>
 
               <form onSubmit={handleLogin} className="space-y-4">
-                <div>
+                <div className="relative">
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     placeholder="Enter Passcode (Default: admin123)"
                     value={passcodeAttempt}
                     onChange={(e) => setPasscodeAttempt(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-stone-300 focus:border-[#5A1226] focus:ring-2 focus:ring-[#5A1226]/20 text-center font-mono tracking-widest text-sm outline-none"
+                    className="w-full px-4 py-3.5 pr-11 rounded-xl border border-stone-300 focus:border-[#5A1226] focus:ring-2 focus:ring-[#5A1226]/20 text-center font-mono tracking-widest text-sm outline-none bg-stone-50"
                     autoFocus
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-stone-400 hover:text-[#5A1226] transition-colors cursor-pointer"
+                    title={showPassword ? 'Hide passcode' : 'Show passcode'}
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
                   {passcodeError && (
-                    <p className="text-rose-600 text-xs font-bold mt-1.5 animate-shake">
-                      Invalid passcode. Try the demo password below.
+                    <p className="text-rose-600 text-xs font-bold mt-2">
+                      Invalid passcode. Please try again or use the test login below.
                     </p>
                   )}
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-xl bg-[#5A1226] hover:bg-[#721832] text-white font-bold text-xs uppercase tracking-wider transition-all shadow cursor-pointer border border-[#E5A823]/40"
+                  className="w-full py-3.5 rounded-xl bg-[#5A1226] hover:bg-[#721832] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer border border-[#E5A823]/40 hover:scale-[1.01] active:scale-98"
                 >
                   Unlock Admin Dashboard
                 </button>
               </form>
 
               {/* Quick Demo Access Button */}
-              <div className="pt-2 border-t border-stone-200">
+              <div className="pt-2 border-t border-stone-200 space-y-3">
                 <button
                   type="button"
                   onClick={handleQuickDemoLogin}
                   className="w-full py-2.5 rounded-xl bg-[#FAF8F5] hover:bg-[#E5A823]/20 text-[#5A1226] font-bold text-xs border border-dashed border-[#E5A823] transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                 >
                   <Unlock className="w-3.5 h-3.5 text-[#E5A823]" />
-                  <span>Quick Demo Access (admin123)</span>
+                  <span>Quick Access (Demo: admin123)</span>
                 </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsAdminOpen(false)}
+                  className="w-full py-2 rounded-xl text-stone-600 hover:text-[#5A1226] font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Return to Public Website</span>
+                </button>
+              </div>
+
+              <div className="text-[11px] text-slate-400">
+                Direct URL: <span className="font-mono text-slate-600">/admin</span>
               </div>
             </div>
           </div>
@@ -285,8 +313,8 @@ export const AdminPanel: React.FC = () => {
           /* Main Authenticated Layout */
           <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
             
-            {/* Sidebar Navigation */}
-            <div className="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-stone-200 p-3 sm:p-4 flex md:flex-col gap-1.5 overflow-x-auto md:overflow-y-auto flex-shrink-0">
+            {/* Sidebar Navigation (Desktop) / Horizontal Touch Bar (Mobile) */}
+            <div className="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-stone-200 p-2 sm:p-4 flex md:flex-col gap-1.5 overflow-x-auto md:overflow-y-auto flex-shrink-0 scrollbar-none">
               
               <div className="hidden md:block px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                 Content Modules
@@ -303,7 +331,7 @@ export const AdminPanel: React.FC = () => {
                 { id: 'faqs', label: 'FAQs Manager', icon: HelpCircle },
                 {
                   id: 'leads',
-                  label: `Student Inquiries (${data.leads.filter((l) => l.status === 'new').length} New)`,
+                  label: `Inquiries (${data.leads.filter((l) => l.status === 'new').length} New)`,
                   icon: Inbox,
                   highlight: data.leads.filter((l) => l.status === 'new').length > 0,
                 },
@@ -314,11 +342,11 @@ export const AdminPanel: React.FC = () => {
                 return (
                   <button
                     key={tab.id}
-                    onClick={() => setActiveTab(tab.id as any)}
-                    className={`flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl font-bold text-xs transition-all whitespace-nowrap md:whitespace-normal text-left cursor-pointer ${
+                    onClick={() => setActiveTab(tab.id as typeof activeTab)}
+                    className={`flex items-center gap-2 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl font-bold text-xs transition-all whitespace-nowrap md:whitespace-normal text-left cursor-pointer flex-shrink-0 min-h-[44px] ${
                       isActive
-                        ? 'bg-[#5A1226] text-white shadow-sm'
-                        : 'text-slate-700 hover:bg-stone-100 hover:text-[#5A1226]'
+                        ? 'bg-[#5A1226] text-white shadow-sm ring-1 ring-[#E5A823]/50'
+                        : 'text-slate-700 hover:bg-stone-100 hover:text-[#5A1226] bg-stone-50/80 md:bg-transparent'
                     } ${tab.highlight && !isActive ? 'ring-2 ring-[#E5A823]' : ''}`}
                   >
                     <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-[#E5A823]' : 'text-slate-500'}`} />
@@ -330,7 +358,7 @@ export const AdminPanel: React.FC = () => {
               <div className="hidden md:block mt-auto pt-4 border-t border-stone-200 space-y-2">
                 <button
                   onClick={resetToDefaults}
-                  className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 transition-colors cursor-pointer"
+                  className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 transition-colors cursor-pointer min-h-[44px]"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   <span>Restore Factory Defaults</span>
@@ -1412,7 +1440,7 @@ export const AdminPanel: React.FC = () => {
                             <div className="flex items-center gap-2">
                               <select
                                 value={lead.status}
-                                onChange={(e) => updateLeadStatus(lead.id, e.target.value as any)}
+                                onChange={(e) => updateLeadStatus(lead.id, e.target.value as LeadItem['status'])}
                                 className="px-3 py-1.5 rounded-lg border border-stone-300 text-xs font-bold bg-white text-slate-700"
                               >
                                 <option value="new">Mark: New</option>

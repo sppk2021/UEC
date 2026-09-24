@@ -3,17 +3,14 @@ import {
   Phone,
   Mail,
   MapPin,
-  Globe,
   ArrowUp,
   ShieldCheck,
-  Building,
-  Heart,
 } from 'lucide-react';
 import { CrestLogo } from './CrestLogo';
 import { useWebsite } from '../context/WebsiteContext';
 
 export const Footer: React.FC = () => {
-  const { data } = useWebsite();
+  const { data, setActivePage } = useWebsite();
   const agencyInfo = data.agencyInfo;
   const offices = data.offices;
   const destinations = data.destinations;
@@ -54,48 +51,64 @@ export const Footer: React.FC = () => {
           {/* Quick Nav Links */}
           <div className="lg:col-span-2 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-widest text-[#E5A823]">
-              Navigation
+              Pages
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
               <li>
-                <a href="#introduction" className="hover:text-[#E5A823] transition-colors">
-                  About UECA
-                </a>
+                <button
+                  onClick={() => setActivePage('home')}
+                  className="hover:text-[#E5A823] transition-colors cursor-pointer text-left"
+                >
+                  Home
+                </button>
               </li>
               <li>
-                <a href="#partners" className="hover:text-[#E5A823] transition-colors">
-                  Group & Partners
-                </a>
+                <button
+                  onClick={() => setActivePage('about')}
+                  className="hover:text-[#E5A823] transition-colors cursor-pointer text-left"
+                >
+                  About Us & Partners
+                </button>
               </li>
               <li>
-                <a href="#vision-mission" className="hover:text-[#E5A823] transition-colors">
-                  Vision & Mission
-                </a>
-              </li>
-              <li>
-                <a href="#services" className="hover:text-[#E5A823] transition-colors">
+                <button
+                  onClick={() => setActivePage('services')}
+                  className="hover:text-[#E5A823] transition-colors cursor-pointer text-left"
+                >
                   Core Services
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#destinations" className="hover:text-[#E5A823] transition-colors">
+                <button
+                  onClick={() => setActivePage('destinations')}
+                  className="hover:text-[#E5A823] transition-colors cursor-pointer text-left"
+                >
                   Study Destinations
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#offices" className="hover:text-[#E5A823] transition-colors">
-                  Office Locations
-                </a>
+                <button
+                  onClick={() => setActivePage('offices')}
+                  className="hover:text-[#E5A823] transition-colors cursor-pointer text-left"
+                >
+                  Office Network
+                </button>
               </li>
               <li>
-                <a href="#assessment-tool" className="hover:text-[#E5A823] transition-colors">
-                  Pathway Profiler
-                </a>
+                <button
+                  onClick={() => setActivePage('blog')}
+                  className="hover:text-[#E5A823] transition-colors cursor-pointer text-left"
+                >
+                  Blog & Success Stories
+                </button>
               </li>
               <li>
-                <a href="#contact" className="hover:text-[#E5A823] transition-colors">
-                  Book Consultation
-                </a>
+                <button
+                  onClick={() => setActivePage('contact')}
+                  className="hover:text-[#E5A823] transition-colors cursor-pointer text-left"
+                >
+                  Free Consultation
+                </button>
               </li>
             </ul>
           </div>
@@ -108,13 +121,13 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2 text-xs text-slate-300">
               {destinations.map((dest) => (
                 <li key={dest.id}>
-                  <a
-                    href="#destinations"
-                    className="hover:text-[#E5A823] transition-colors flex items-center gap-1.5"
+                  <button
+                    onClick={() => setActivePage('destinations')}
+                    className="hover:text-[#E5A823] transition-colors flex items-center gap-1.5 cursor-pointer text-left"
                   >
                     <span>{dest.flagEmoji}</span>
-                    <span>{dest.country} Programs</span>
-                  </a>
+                    <span>{dest.country}</span>
+                  </button>
                 </li>
               ))}
               <li className="pt-2">

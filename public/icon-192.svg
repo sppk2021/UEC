@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192" fill="none">
+  <rect width="192" height="192" rx="36" fill="#5A1226" />
+  <defs>
+    <linearGradient id="shieldGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7A1A35" />
+      <stop offset="100%" stop-color="#3D0A18" />
+    </linearGradient>
+    <linearGradient id="goldGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5CE66" />
+      <stop offset="50%" stop-color="#E5A823" />
+      <stop offset="100%" stop-color="#B37E10" />
+    </linearGradient>
+  </defs>
+
+  <!-- Crest Body -->
+  <g transform="translate(16, 12) scale(1.6)">
+    <!-- Background Shield Shape -->
+    <path
+      d="M50 4 C72 4 88 12 88 28 C88 64 50 94 50 94 C50 94 12 64 12 28 C12 12 28 4 50 4 Z"
+      fill="url(#shieldGrad192)"
+      stroke="url(#goldGrad192)"
+      stroke-width="3"
+    />
+
+    <!-- Inner Golden Border -->
+    <path
+      d="M50 9 C68 9 82 16 82 30 C82 60 50 87 50 87 C50 87 18 60 18 30 C18 16 32 9 50 9 Z"
+      fill="none"
+      stroke="url(#goldGrad192)"
+      stroke-width="1.2"
+      stroke-dasharray="2 2"
+      opacity="0.85"
+    />
+
+    <!-- Top Crown / Academic Cap Silhouette -->
+    <path
+      d="M34 22 L50 15 L66 22 L50 28 Z"
+      fill="url(#goldGrad192)"
+    />
+    <circle cx="50" cy="14" r="1.5" fill="#FFF" />
+
+    <!-- Center "U" Monogram -->
+    <text
+      x="50"
+      y="57"
+      font-family="'Cinzel', 'Outfit', serif, sans-serif"
+      font-size="34"
+      font-weight="900"
+      fill="url(#goldGrad192)"
+      text-anchor="middle"
+      dominant-baseline="central"
+    >U</text>
+
+    <!-- Stars below U -->
+    <g fill="url(#goldGrad192)">
+      <polygon points="50,70 51.5,74 55.5,74 52.5,76.5 53.5,80.5 50,78 46.5,80.5 47.5,76.5 44.5,74 48.5,74" />
+      <polygon points="38,71 39,74 42,74 39.5,76 40.5,79 38,77 35.5,79 36.5,76 34,74 37,74" />
+      <polygon points="62,71 63,74 66,74 63.5,76 64.5,79 62,77 59.5,79 60.5,76 58,74 61,74" />
+    </g>
+  </g>
+</svg>
