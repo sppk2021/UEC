@@ -83,15 +83,7 @@ export const Footer: React.FC = () => {
                   onClick={() => setActivePage('destinations')}
                   className="hover:text-[#E5A823] transition-colors cursor-pointer text-left"
                 >
-                  Study Destinations
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => setActivePage('offices')}
-                  className="hover:text-[#E5A823] transition-colors cursor-pointer text-left"
-                >
-                  Office Network
+                  Destinations & Offices
                 </button>
               </li>
               <li>

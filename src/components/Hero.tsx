@@ -52,7 +52,7 @@ const HERO_SLIDES: HeroSlide[] = [
     ],
     ctaPrimaryText: 'Book Free Student Assessment',
     ctaPrimaryAction: 'consultation',
-    ctaSecondaryText: 'Find Your Ideal Study Pathway',
+    ctaSecondaryText: 'Explore Study Destinations',
     ctaSecondaryAction: 'destinations',
     backgroundImage:
       'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2000&auto=format&fit=crop',
@@ -317,27 +317,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
 
             {/* Country flags for intakes slide, rendered cleanly without any pill or bar container */}
             {currentSlide.id === 'intakes-2026' && (
-              <div className="flex flex-wrap items-center gap-2 pt-1 text-slate-700 text-xs sm:text-sm font-semibold">
-                <span className="text-slate-500">Destinations:</span>
-                <span className="inline-flex items-center gap-1 text-slate-800">
-                  <CountryFlag country="italy" size="sm" /> Italy
-                </span>
-                <span className="text-stone-300">•</span>
-                <span className="inline-flex items-center gap-1 text-slate-800">
-                  <CountryFlag country="thailand" size="sm" /> Thailand
-                </span>
-                <span className="text-stone-300">•</span>
-                <span className="inline-flex items-center gap-1 text-slate-800">
-                  <CountryFlag country="china" size="sm" /> China
-                </span>
-                <span className="text-stone-300">•</span>
-                <span className="inline-flex items-center gap-1 text-slate-800">
-                  <CountryFlag country="malaysia" size="sm" /> Malaysia
-                </span>
-                <span className="text-stone-300">•</span>
-                <span className="inline-flex items-center gap-1 text-slate-800">
-                  <CountryFlag country="cambodia" size="sm" /> Cambodia
-                </span>
+              <div className="flex items-center gap-2.5 pt-1">
+                <CountryFlag country="italy" size="sm" />
+                <CountryFlag country="thailand" size="sm" />
+                <CountryFlag country="china" size="sm" />
+                <CountryFlag country="malaysia" size="sm" />
+                <CountryFlag country="cambodia" size="sm" />
               </div>
             )}
 

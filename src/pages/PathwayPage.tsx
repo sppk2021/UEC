@@ -31,15 +31,15 @@ export const PathwayPage: React.FC<PathwayPageProps> = ({ onOpenConsultationModa
               <CrestLogo variant="light" />
               <div className="space-y-2">
                 <span className="text-xs font-black uppercase tracking-widest text-[#E5A823] bg-white/10 px-3.5 py-1 rounded-full border border-white/15 inline-block">
-                  Academic Profiling & Financial Estimator
+                  Unified Academic Profiling & Financial Estimator
                 </span>
                 <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
-                  Find Your Ideal <span className="text-[#E5A823]">Study Pathway</span>
+                  Study Pathway & <span className="text-[#E5A823]">Budget Calculator</span>
                 </h1>
               </div>
 
               <p className="text-slate-200 text-sm sm:text-base leading-relaxed max-w-2xl font-medium">
-                Comprehensive destination matcher, scholarship feasibility forecaster, and interactive budget calculator tailored for <strong>Italy, Thailand, China, Malaysia, and Cambodia</strong>.
+                Unified destination matcher, scholarship feasibility forecaster, and interactive budget calculator tailored for <strong>Italy, Thailand, China, Malaysia, and Cambodia</strong>.
               </p>
 
               {/* Quick Pillars Mode Switcher */}

@@ -22,22 +22,50 @@ export const CountryFlag: React.FC<CountryFlagProps> = ({
   size = 'md',
   showCode = false,
 }) => {
-  const normalized = (code || country || '').toLowerCase().trim();
+  const codeClean = (code || '').toLowerCase().trim();
+  const countryClean = (country || '').toLowerCase().trim();
+  const combined = `${codeClean} ${countryClean}`;
 
-  // Normalize to standard country key
+  // Normalize to standard country key with strict precedence
   let key = 'it';
-  if (normalized.includes('it') || normalized.includes('ital')) {
-    key = 'it';
-  } else if (normalized.includes('th') || normalized.includes('thai')) {
-    key = 'th';
-  } else if (normalized.includes('cn') || normalized.includes('chin')) {
-    key = 'cn';
-  } else if (normalized.includes('my') || normalized.includes('malay')) {
-    key = 'my';
-  } else if (normalized.includes('kh') || normalized.includes('cambo')) {
-    key = 'kh';
-  } else if (normalized.includes('mm') || normalized.includes('myan') || normalized.includes('burma') || normalized.includes('yangon') || normalized.includes('mandalay')) {
+  if (
+    codeClean === 'mm' ||
+    combined.includes('myan') ||
+    combined.includes('burma') ||
+    combined.includes('yangon') ||
+    combined.includes('mandalay')
+  ) {
     key = 'mm';
+  } else if (
+    codeClean === 'my' ||
+    combined.includes('malay')
+  ) {
+    key = 'my';
+  } else if (
+    codeClean === 'th' ||
+    combined.includes('thai') ||
+    combined.includes('bangkok')
+  ) {
+    key = 'th';
+  } else if (
+    codeClean === 'cn' ||
+    combined.includes('chin') ||
+    combined.includes('beijing')
+  ) {
+    key = 'cn';
+  } else if (
+    codeClean === 'kh' ||
+    combined.includes('cambo') ||
+    combined.includes('phnom')
+  ) {
+    key = 'kh';
+  } else if (
+    codeClean === 'it' ||
+    combined.includes('ital') ||
+    combined.includes('rome') ||
+    combined.includes('messina')
+  ) {
+    key = 'it';
   }
 
   const dimensionClass = sizeClasses[size] || sizeClasses.md;
@@ -181,7 +209,7 @@ export const CountryFlag: React.FC<CountryFlagProps> = ({
         );
 
       case 'mm':
-        // Myanmar: Yellow, Green, Red with large centered white star
+        // Official Flag of Myanmar: Yellow (top), Green (middle), Red (bottom) with centered 5-pointed white star
         return (
           <svg
             viewBox="0 0 300 200"
@@ -192,9 +220,9 @@ export const CountryFlag: React.FC<CountryFlagProps> = ({
             <rect width="300" height="66.67" fill="#FECB00" />
             <rect y="66.67" width="300" height="66.67" fill="#34B233" />
             <rect y="133.34" width="300" height="66.67" fill="#EA2839" />
-            {/* Centered 5-pointed white star */}
+            {/* Centered regular 5-pointed white star */}
             <polygon
-              points="150,42 163,80 203,80 171,104 183,142 150,119 117,142 129,104 97,80 137,80"
+              points="150,34 164.7,79.8 210.9,80.2 173.8,107.7 187.6,151.8 150,125 112.4,151.8 126.2,107.7 89.1,80.2 135.3,79.8"
               fill="#FFFFFF"
             />
           </svg>

@@ -66,6 +66,24 @@ export const CoreServices: React.FC = () => {
                   <ArrowRight className="w-3.5 h-3.5" />
                 </a>
               </div>
+
+              {/* Service Headline Visual Card */}
+              <div className="pt-2">
+                <div className="relative rounded-2xl overflow-hidden border border-[#E5A823]/30 shadow-lg group">
+                  <img
+                    src="/src/assets/images/services_headline_1791445406028.jpg"
+                    alt="Educational guidance and student consultation"
+                    referrerPolicy="no-referrer"
+                    className="w-full h-44 object-cover transform transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute bottom-2 left-2 right-2 px-2.5 py-1 bg-black/40 backdrop-blur-xs rounded-lg text-white flex items-center justify-between text-[11px]">
+                    <span className="font-semibold text-[#E5A823]">5-Stage Pipeline</span>
+                    <span>100% Compliance</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Bottom Chevron matching Slide 5 */}

@@ -127,7 +127,7 @@ export const OfficesPage: React.FC<OfficesPageProps> = ({ onOpenConsultationModa
                     <CountryFlag country={office.country} code={theme.countryCode} size="md" />
                     <div>
                       <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 block">
-                        {theme.countryCode} • {office.country}
+                        {office.country}
                       </span>
                       <span className="text-sm font-black leading-tight text-slate-900">
                         {office.city}

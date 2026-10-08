@@ -83,19 +83,44 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenConsultationMo
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-dot-pattern-white opacity-10 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="flex flex-col items-start max-w-3xl space-y-4">
-            <CrestLogo variant="light" />
-            <div className="space-y-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#E5A823]">
-                End-to-End Educational Roadmap
-              </span>
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                Our Core <span className="text-[#E5A823]">Services</span>
-              </h1>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="lg:col-span-7 flex flex-col items-start space-y-4">
+              <CrestLogo variant="light" />
+              <div className="space-y-2">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#E5A823]">
+                  End-to-End Educational Roadmap
+                </span>
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                  Our Core <span className="text-[#E5A823]">Services</span>
+                </h1>
+              </div>
+              <p className="text-slate-200 text-base sm:text-lg leading-relaxed pt-2">
+                From your initial diagnostic profile evaluation to dormitory key handover in Messina, Bangkok, Kuala Lumpur, or China, our full-service suite ensures 100% academic compliance, scholarship optimization, and immigration security.
+              </p>
             </div>
-            <p className="text-slate-200 text-base sm:text-lg leading-relaxed pt-2">
-              From your initial diagnostic profile evaluation to dormitory key handover in Messina, Bangkok, Kuala Lumpur, or China, our full-service suite ensures 100% academic compliance, scholarship optimization, and immigration security.
-            </p>
+
+            {/* Landing Headline Hero Image */}
+            <div className="lg:col-span-5 relative mt-4 lg:mt-0">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-[#E5A823]/30 group">
+                <img
+                  src="/src/assets/images/services_headline_1791445406028.jpg"
+                  alt="U Education educational admissions counseling and study roadmap advisory"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-64 sm:h-72 lg:h-80 object-cover transform transition-transform duration-700 group-hover:scale-105"
+                  loading="eager"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none" />
+                <div className="absolute bottom-3 left-3 right-3 p-3 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-white flex items-center justify-between">
+                  <div>
+                    <p className="text-[11px] font-bold text-[#E5A823] uppercase tracking-wider">End-to-End Advisory</p>
+                    <p className="text-xs text-white/95 font-medium">6-Stage Full Lifecycle Care</p>
+                  </div>
+                  <div className="px-2.5 py-1 rounded-full bg-[#E5A823] text-[#5A1226] text-[11px] font-black shadow-sm">
+                    98.4% Visa Rate
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

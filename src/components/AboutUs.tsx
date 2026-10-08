@@ -17,7 +17,6 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { CrestLogo } from './CrestLogo';
-import { ChevronDeco } from './ChevronDeco';
 import { useWebsite } from '../context/WebsiteContext';
 
 interface AboutUsProps {
@@ -165,8 +164,8 @@ export const AboutUs: React.FC<AboutUsProps> = ({ onOpenConsultationModal }) => 
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-stone-200 pb-8">
-          <div className="space-y-3 max-w-3xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-12 border-b border-stone-200 pb-8">
+          <div className="lg:col-span-7 space-y-3">
             <div className="flex items-center gap-3">
               <CrestLogo variant="compact" />
               <span className="text-xs font-bold uppercase tracking-widest text-[#E5A823]">
@@ -182,8 +181,21 @@ export const AboutUs: React.FC<AboutUsProps> = ({ onOpenConsultationModal }) => 
             </p>
           </div>
 
-          <div className="hidden lg:block">
-            <ChevronDeco count={4} size="lg" color="#E5A823" />
+          <div className="lg:col-span-5 relative">
+            <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-[#E5A823]/30 group">
+              <img
+                src="/src/assets/images/about_us_headline_1791445385165.jpg"
+                alt="About U Education team and international students"
+                referrerPolicy="no-referrer"
+                className="w-full h-52 sm:h-60 object-cover transform transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute bottom-3 left-3 right-3 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-xl text-white flex items-center justify-between text-xs">
+                <span className="font-semibold text-[#E5A823]">U Education Heritage</span>
+                <span className="font-bold">Est. 2019</span>
+              </div>
+            </div>
           </div>
         </div>
 

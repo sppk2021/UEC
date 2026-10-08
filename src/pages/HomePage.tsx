@@ -63,24 +63,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenConsultationModal }) =
               </h2>
               <div className="w-20 h-1.5 bg-[#E5A823] rounded-full" />
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed pt-1">
-                Explore specialized university networks across{' '}
-                <span className="inline-flex items-center gap-1 font-bold text-slate-900 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-200">
-                  <CountryFlag country="italy" size="sm" /> Italy
-                </span>,{' '}
-                <span className="inline-flex items-center gap-1 font-bold text-slate-900 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-200">
-                  <CountryFlag country="thailand" size="sm" /> Thailand
-                </span>,{' '}
-                <span className="inline-flex items-center gap-1 font-bold text-slate-900 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-200">
-                  <CountryFlag country="china" size="sm" /> China
-                </span>,{' '}
-                <span className="inline-flex items-center gap-1 font-bold text-slate-900 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-200">
-                  <CountryFlag country="malaysia" size="sm" /> Malaysia
-                </span>, and{' '}
-                <span className="inline-flex items-center gap-1 font-bold text-slate-900 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-200">
-                  <CountryFlag country="cambodia" size="sm" /> Cambodia
-                </span>{' '}
-                with full scholarship support and ground guidance.
+                Explore specialized university networks across Italy, Thailand, China, Malaysia, and Cambodia with full scholarship support and ground guidance.
               </p>
+              <div className="flex items-center gap-2.5 pt-2">
+                <CountryFlag country="italy" size="sm" />
+                <CountryFlag country="thailand" size="sm" />
+                <CountryFlag country="china" size="sm" />
+                <CountryFlag country="malaysia" size="sm" />
+                <CountryFlag country="cambodia" size="sm" />
+              </div>
             </div>
 
             <button
@@ -104,24 +95,18 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenConsultationModal }) =
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <CountryFlag country={dest.country} code={dest.code} size="lg" />
-                      <span className="text-xl filter drop-shadow-xs">{dest.flagEmoji}</span>
                     </div>
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setQuickViewDest(dest);
-                        }}
-                        title={`Quick Preview ${dest.country}`}
-                        className="p-1.5 rounded-lg bg-stone-100 hover:bg-[#5A1226] text-slate-600 hover:text-white transition-colors cursor-pointer"
-                      >
-                        <Eye className="w-3.5 h-3.5" />
-                      </button>
-                      <span className="px-2.5 py-0.5 rounded-md bg-stone-100 text-slate-800 border border-stone-200 text-[11px] font-black uppercase tracking-wider">
-                        {dest.code}
-                      </span>
-                    </div>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setQuickViewDest(dest);
+                      }}
+                      title={`Quick Preview ${dest.country}`}
+                      className="p-1.5 rounded-lg bg-stone-100 hover:bg-[#5A1226] text-slate-600 hover:text-white transition-colors cursor-pointer"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                    </button>
                   </div>
 
                   <div>
@@ -180,9 +165,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenConsultationModal }) =
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
                         <CountryFlag country={quickViewDest.country} code={quickViewDest.code} size="lg" />
-                        <span className="text-2xl">{quickViewDest.flagEmoji}</span>
                         <span className="px-2.5 py-0.5 rounded-md bg-[#E5A823] text-[#5A1226] text-xs font-black uppercase tracking-wider">
-                          {quickViewDest.code} • {quickViewDest.highlightBadge}
+                          {quickViewDest.highlightBadge}
                         </span>
                       </div>
                       <button
@@ -458,7 +442,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenConsultationModal }) =
                           <CountryFlag country={office.country} code={office.countryCode} size="sm" />
                           <span>{office.city}</span>
                         </span>
-                        <span className="text-[10px] text-slate-400 uppercase font-mono">{office.countryCode || ''}</span>
                       </h4>
                       <p className="text-[11px] text-slate-600 line-clamp-2 leading-relaxed">
                         {office.address}

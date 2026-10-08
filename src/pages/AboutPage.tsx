@@ -148,19 +148,44 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenConsultationModal })
         <div className="absolute top-1/4 right-0 w-96 h-96 bg-[#E5A823]/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="flex flex-col items-start max-w-3xl space-y-4">
-            <CrestLogo variant="light" />
-            <div className="space-y-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#E5A823]">
-                Heritage, Ethos & Distinction
-              </span>
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                About <span className="text-[#E5A823]">U Education</span>
-              </h1>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="lg:col-span-7 flex flex-col items-start space-y-4">
+              <CrestLogo variant="light" />
+              <div className="space-y-2">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#E5A823]">
+                  Heritage, Ethos & Distinction
+                </span>
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                  About <span className="text-[#E5A823]">U Education</span>
+                </h1>
+              </div>
+              <p className="text-slate-200 text-base sm:text-lg leading-relaxed pt-2">
+                Founded on the bedrock of radical transparency and genuine student advocacy, U Education Consultant Agency bridges ambitious scholars with world-class academic opportunities across Europe and Asia.
+              </p>
             </div>
-            <p className="text-slate-200 text-base sm:text-lg leading-relaxed pt-2">
-              Founded on the bedrock of radical transparency and genuine student advocacy, U Education Consultant Agency bridges ambitious scholars with world-class academic opportunities across Europe and Asia.
-            </p>
+
+            {/* Landing Headline Hero Image */}
+            <div className="lg:col-span-5 relative mt-4 lg:mt-0">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-[#E5A823]/30 group">
+                <img
+                  src="/src/assets/images/about_us_headline_1791445385165.jpg"
+                  alt="U Education academic counseling mentors and university students"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-64 sm:h-72 lg:h-80 object-cover transform transition-transform duration-700 group-hover:scale-105"
+                  loading="eager"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none" />
+                <div className="absolute bottom-3 left-3 right-3 p-3 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-white flex items-center justify-between">
+                  <div>
+                    <p className="text-[11px] font-bold text-[#E5A823] uppercase tracking-wider">Heritage & Campus Mentorship</p>
+                    <p className="text-xs text-white/95 font-medium">Guiding Scholars Since 2019</p>
+                  </div>
+                  <div className="px-2.5 py-1 rounded-full bg-[#E5A823] text-[#5A1226] text-[11px] font-black shadow-sm">
+                    1,500+ Alumni
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Tab Controls */}

@@ -18,7 +18,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { data, activePage, setActivePage, pathwayTab } = useWebsite();
+  const { data, activePage, setActivePage } = useWebsite();
   const { agencyInfo } = data;
 
   useEffect(() => {
@@ -33,10 +33,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
     { name: 'Home', pageId: 'home' },
     { name: 'About Us', pageId: 'about' },
     { name: 'Core Services', pageId: 'services' },
-    { name: 'Destinations', pageId: 'destinations' },
-    { name: 'Find Study Pathway', pageId: 'pathway', targetTab: 'why' },
-    { name: 'Budget Calculator', pageId: 'pathway', targetTab: 'budget' },
-    { name: 'Offices', pageId: 'offices' },
+    { name: 'Destinations & Offices', pageId: 'destinations' },
+    { name: 'Pathway & Budget Calculator', pageId: 'pathway' },
     { name: 'Blog & Stories', pageId: 'blog' },
     { name: 'Contact', pageId: 'contact' },
   ];
@@ -48,14 +46,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
   };
 
   const isLinkActive = (link: (typeof navLinks)[0]) => {
-    if (activePage !== link.pageId) return false;
-    if (link.pageId === 'pathway') {
-      if (link.targetTab === 'budget') {
-        return pathwayTab === 'budget' || pathwayTab === 'comparison';
-      }
-      return pathwayTab === 'why' || pathwayTab === 'suggestions' || pathwayTab === 'universities';
+    if (link.pageId === 'destinations') {
+      return activePage === 'destinations' || activePage === 'offices';
     }
-    return true;
+    return activePage === link.pageId;
   };
 
   return (

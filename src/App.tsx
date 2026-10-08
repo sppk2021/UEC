@@ -7,7 +7,6 @@ import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { DestinationsPage } from './pages/DestinationsPage';
-import { OfficesPage } from './pages/OfficesPage';
 import { BlogPage } from './pages/BlogPage';
 import { ContactPage } from './pages/ContactPage';
 import { PathwayPage } from './pages/PathwayPage';
@@ -30,11 +29,11 @@ const AppContent: React.FC = () => {
       case 'services':
         return <ServicesPage onOpenConsultationModal={() => setIsModalOpen(true)} />;
       case 'destinations':
-        return <DestinationsPage onOpenConsultationModal={() => setIsModalOpen(true)} />;
+        return <DestinationsPage initialTab="destinations" onOpenConsultationModal={() => setIsModalOpen(true)} />;
+      case 'offices':
+        return <DestinationsPage initialTab="offices" onOpenConsultationModal={() => setIsModalOpen(true)} />;
       case 'pathway':
         return <PathwayPage onOpenConsultationModal={() => setIsModalOpen(true)} />;
-      case 'offices':
-        return <OfficesPage onOpenConsultationModal={() => setIsModalOpen(true)} />;
       case 'blog':
         return <BlogPage onOpenConsultationModal={() => setIsModalOpen(true)} />;
       case 'contact':

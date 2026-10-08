@@ -819,7 +819,7 @@ CONTACT COUNSELOR FOR VERIFICATION & SCHOLARSHIP FILING:
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-black text-[#5A1226] tracking-tight leading-tight">
-            Find Your Ideal <span className="text-[#E5A823]">Study Pathway</span>
+            Study Pathway & <span className="text-[#E5A823]">Budget Calculator</span>
           </h2>
           <div className="w-20 h-1.5 bg-[#E5A823] rounded-full mx-auto" />
 
