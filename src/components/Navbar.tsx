@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {
   Phone,
   Mail,
-  MapPin,
   Menu,
   X,
-  MessageCircle,
   ChevronRight,
   Sparkles,
   GraduationCap,
@@ -62,59 +60,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
 
   return (
     <header className="sticky top-0 z-50 w-full transition-all duration-300">
-      {/* Top Bar: Contact & Global Presence */}
-      <div className="bg-[#5A1226] text-white text-xs border-b border-[#E5A823]/25 px-4 sm:px-6 lg:px-8 py-2">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-y-1.5 gap-x-4">
-          <div className="flex items-center flex-wrap gap-4 sm:gap-6 text-slate-200">
-            {/* Phone Hotline */}
-            <a
-              id="top-bar-phone"
-              href={`tel:${agencyInfo.cleanPhone}`}
-              className="flex items-center gap-1.5 hover:text-[#E5A823] transition-colors font-medium tracking-wide"
-            >
-              <Phone className="w-3.5 h-3.5 text-[#E5A823]" />
-              <span>{agencyInfo.phone}</span>
-            </a>
-
-            {/* Email */}
-            <a
-              id="top-bar-email"
-              href={`mailto:${agencyInfo.email}`}
-              className="flex items-center gap-1.5 hover:text-[#E5A823] transition-colors hidden sm:flex font-medium"
-            >
-              <Mail className="w-3.5 h-3.5 text-[#E5A823]" />
-              <span>{agencyInfo.email}</span>
-            </a>
-          </div>
-
-          <div className="flex items-center gap-3 sm:gap-5 text-xs text-slate-200 ml-auto">
-            {/* Hubs indicator */}
-            <div className="flex items-center gap-1 text-slate-300 hidden md:flex">
-              <MapPin className="w-3.5 h-3.5 text-[#E5A823]" />
-              <span>Offices in Yangon • Mandalay • Bangkok • Messina</span>
-            </div>
-
-            {/* WhatsApp Quick Connect */}
-            <a
-              id="top-bar-whatsapp"
-              href={`https://wa.me/${agencyInfo.whatsappNumber}?text=Hello%20U%20Education%20Consultant%20Agency,%20I%20would%20like%20to%20inquire%20about%20studying%20abroad.`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-[#E5A823] text-[#E5A823] hover:text-[#5A1226] font-medium transition-colors border border-amber-300/20"
-            >
-              <MessageCircle className="w-3.5 h-3.5" />
-              <span>WhatsApp Counselor</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
       {/* Main Nav Header */}
       <nav
         className={`w-full transition-all duration-300 ${
           isScrolled
             ? 'bg-[#FAF8F5]/95 backdrop-blur-md shadow-md py-3'
-            : 'bg-[#FAF8F5] py-4 border-b border-stone-200'
+            : 'bg-[#FAF8F5] py-3.5 border-b border-stone-200'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">

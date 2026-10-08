@@ -8,6 +8,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { CrestLogo } from '../components/CrestLogo';
+import { CountryFlag } from '../components/CountryFlag';
 import { useWebsite } from '../context/WebsiteContext';
 
 interface OfficesPageProps {
@@ -123,7 +124,7 @@ export const OfficesPage: React.FC<OfficesPageProps> = ({ onOpenConsultationModa
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl filter drop-shadow-xs">{theme.flagEmoji}</span>
+                    <CountryFlag country={office.country} code={theme.countryCode} size="md" />
                     <div>
                       <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 block">
                         {theme.countryCode} • {office.country}
@@ -167,10 +168,10 @@ export const OfficesPage: React.FC<OfficesPageProps> = ({ onOpenConsultationModa
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-                    {/* Top Badges: Flag Emoji + Country Name + Status */}
+                    {/* Top Badges: Flag + Country Name + Status */}
                     <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-xs font-black text-slate-900 shadow-sm border border-stone-200">
-                        <span className="text-base">{theme.flagEmoji}</span>
+                      <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-xs font-black text-slate-900 shadow-sm border border-stone-200">
+                        <CountryFlag country={office.country} code={theme.countryCode} size="sm" />
                         <span>{office.country}</span>
                       </span>
 

@@ -11,13 +11,8 @@ import { useWebsite } from '../context/WebsiteContext';
 import { Hero } from '../components/Hero';
 import { Introduction } from '../components/Introduction';
 import { CrestLogo } from '../components/CrestLogo';
+import { CountryFlag } from '../components/CountryFlag';
 import { StudyDestination } from '../types';
-
-const InteractiveAssessmentTool = lazy(() =>
-  import('../components/InteractiveAssessmentTool').then((m) => ({
-    default: m.InteractiveAssessmentTool,
-  }))
-);
 
 const TestimonialsFaq = lazy(() =>
   import('../components/TestimonialsFaq').then((m) => ({ default: m.TestimonialsFaq }))
@@ -68,7 +63,23 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenConsultationModal }) =
               </h2>
               <div className="w-20 h-1.5 bg-[#E5A823] rounded-full" />
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed pt-1">
-                Explore specialized university networks across <strong>Italy</strong>, <strong>Thailand</strong>, <strong>China</strong>, <strong>Malaysia</strong>, and <strong>Cambodia</strong> with full scholarship support and ground guidance.
+                Explore specialized university networks across{' '}
+                <span className="inline-flex items-center gap-1 font-bold text-slate-900 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-200">
+                  <CountryFlag country="italy" size="sm" /> Italy
+                </span>,{' '}
+                <span className="inline-flex items-center gap-1 font-bold text-slate-900 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-200">
+                  <CountryFlag country="thailand" size="sm" /> Thailand
+                </span>,{' '}
+                <span className="inline-flex items-center gap-1 font-bold text-slate-900 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-200">
+                  <CountryFlag country="china" size="sm" /> China
+                </span>,{' '}
+                <span className="inline-flex items-center gap-1 font-bold text-slate-900 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-200">
+                  <CountryFlag country="malaysia" size="sm" /> Malaysia
+                </span>, and{' '}
+                <span className="inline-flex items-center gap-1 font-bold text-slate-900 bg-stone-100 px-2 py-0.5 rounded-md border border-stone-200">
+                  <CountryFlag country="cambodia" size="sm" /> Cambodia
+                </span>{' '}
+                with full scholarship support and ground guidance.
               </p>
             </div>
 
@@ -91,7 +102,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenConsultationModal }) =
               >
                 <div className="space-y-3.5">
                   <div className="flex items-center justify-between">
-                    <span className="text-3xl filter drop-shadow-xs">{dest.flagEmoji}</span>
+                    <div className="flex items-center gap-2">
+                      <CountryFlag country={dest.country} code={dest.code} size="lg" />
+                      <span className="text-xl filter drop-shadow-xs">{dest.flagEmoji}</span>
+                    </div>
                     <div className="flex items-center gap-1.5">
                       <button
                         type="button"
@@ -164,8 +178,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenConsultationModal }) =
 
                   <div className="relative z-10 space-y-2">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-3xl">{quickViewDest.flagEmoji}</span>
+                      <div className="flex items-center gap-2.5">
+                        <CountryFlag country={quickViewDest.country} code={quickViewDest.code} size="lg" />
+                        <span className="text-2xl">{quickViewDest.flagEmoji}</span>
                         <span className="px-2.5 py-0.5 rounded-md bg-[#E5A823] text-[#5A1226] text-xs font-black uppercase tracking-wider">
                           {quickViewDest.code} • {quickViewDest.highlightBadge}
                         </span>
@@ -396,12 +411,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenConsultationModal }) =
         </div>
       </section>
 
-      {/* 6. Interactive Student Pathway Profiler */}
-      <Suspense fallback={null}>
-        <InteractiveAssessmentTool initialTab="why" />
-      </Suspense>
-
-      {/* 7. Global Counseling Hubs Snapshot */}
+      {/* 6. Global Counseling Hubs Snapshot */}
       <section className="py-16 sm:py-20 bg-white border-t border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
@@ -423,23 +433,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenConsultationModal }) =
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {offices.map((office) => {
-              const flagEmoji =
-                office.flagEmoji ||
-                (office.id === 'yangon' || office.id === 'mandalay'
-                  ? '🇲🇲'
-                  : office.id === 'bangkok'
-                  ? '🇹🇭'
-                  : office.id === 'cambodia'
-                  ? '🇰🇭'
-                  : '🇮🇹');
-
-              return (
-                <div
-                  key={office.id}
-                  onClick={() => setActivePage('offices')}
-                  className="rounded-2xl bg-[#FAF8F5] hover:bg-white border-2 border-stone-200 hover:border-[#E5A823] transition-all cursor-pointer group shadow-2xs hover:shadow-lg overflow-hidden flex flex-col justify-between"
-                >
+            {offices.map((office) => (
+              <div
+                key={office.id}
+                onClick={() => setActivePage('offices')}
+                className="rounded-2xl bg-[#FAF8F5] hover:bg-white border-2 border-stone-200 hover:border-[#E5A823] transition-all cursor-pointer group shadow-2xs hover:shadow-lg overflow-hidden flex flex-col justify-between"
+              >
                   <div>
                     <div className="aspect-[16/10] overflow-hidden relative">
                       <img
@@ -447,15 +446,18 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenConsultationModal }) =
                         alt={office.city}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
-                      <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-xs text-white text-[11px] font-bold flex items-center gap-1">
-                        <span>{flagEmoji}</span>
+                      <div className="absolute top-2 left-2 px-2.5 py-1 rounded-md bg-black/75 backdrop-blur-xs text-white text-[11px] font-bold flex items-center gap-1.5 shadow-md">
+                        <CountryFlag country={office.country} code={office.countryCode} size="sm" />
                         <span>{office.country}</span>
                       </div>
                     </div>
 
                     <div className="p-4 space-y-2">
                       <h4 className="font-black text-slate-900 group-hover:text-[#5A1226] text-sm flex items-center justify-between">
-                        <span>{office.city}</span>
+                        <span className="flex items-center gap-1.5">
+                          <CountryFlag country={office.country} code={office.countryCode} size="sm" />
+                          <span>{office.city}</span>
+                        </span>
                         <span className="text-[10px] text-slate-400 uppercase font-mono">{office.countryCode || ''}</span>
                       </h4>
                       <p className="text-[11px] text-slate-600 line-clamp-2 leading-relaxed">
@@ -469,8 +471,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenConsultationModal }) =
                     <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
-              );
-            })}
+            ))}
           </div>
         </div>
       </section>

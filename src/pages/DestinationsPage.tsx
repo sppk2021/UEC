@@ -11,6 +11,7 @@ import {
   Award,
 } from 'lucide-react';
 import { CrestLogo } from '../components/CrestLogo';
+import { CountryFlag } from '../components/CountryFlag';
 import { useWebsite } from '../context/WebsiteContext';
 
 interface DestinationsPageProps {
@@ -146,7 +147,10 @@ export const DestinationsPage: React.FC<DestinationsPageProps> = ({ onOpenConsul
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-3xl filter drop-shadow-xs">{dest.flagEmoji}</span>
+                      <div className="flex items-center gap-2">
+                        <CountryFlag country={dest.country} code={dest.code} size="md" />
+                        <span className="text-xl filter drop-shadow-xs">{dest.flagEmoji}</span>
+                      </div>
                       <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-stone-100 text-slate-700 border border-stone-200">
                         {dest.code}
                       </span>
@@ -202,7 +206,8 @@ export const DestinationsPage: React.FC<DestinationsPageProps> = ({ onOpenConsul
             <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
               <div className="space-y-4 max-w-2xl">
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <span className="text-4xl filter drop-shadow-md">{selectedDest.flagEmoji}</span>
+                  <CountryFlag country={selectedDest.country} code={selectedDest.code} size="xl" />
+                  <span className="text-2xl filter drop-shadow-md">{selectedDest.flagEmoji}</span>
                   <span className="px-3 py-1 rounded-md bg-[#E5A823] text-[#5A1226] text-xs font-black uppercase tracking-wider shadow-sm">
                     {selectedDest.code} • {selectedDest.highlightBadge}
                   </span>

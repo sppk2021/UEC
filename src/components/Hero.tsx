@@ -7,6 +7,7 @@ import {
   ChevronRight,
   Calculator,
 } from 'lucide-react';
+import { CountryFlag } from './CountryFlag';
 import { useWebsite } from '../context/WebsiteContext';
 
 interface HeroProps {
@@ -216,11 +217,50 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
     }
   };
 
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStart - touchEnd;
+    if (diff > 50) {
+      goToNextSlide();
+    } else if (diff < -50) {
+      goToPrevSlide();
+    }
+    setTouchStart(null);
+  };
+
   return (
     <section
       id="hero-section"
-      className="relative min-h-[560px] lg:min-h-[640px] flex flex-col justify-center overflow-hidden bg-[#FAF8F5] text-slate-900 border-b border-stone-200"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      className="relative min-h-[560px] lg:min-h-[640px] flex flex-col justify-center overflow-hidden bg-[#FAF8F5] text-slate-900 group/hero"
     >
+      {/* Discreet Edge Slide Navigation: Keeps moving slides controllable without any bar */}
+      <button
+        type="button"
+        onClick={goToPrevSlide}
+        aria-label="Previous slide"
+        className="hidden sm:flex absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-35 p-2.5 rounded-full bg-white/75 hover:bg-white text-slate-700 hover:text-[#5A1226] backdrop-blur-md shadow-md border border-stone-200/90 transition-all opacity-40 group-hover/hero:opacity-100 hover:scale-105 active:scale-95 cursor-pointer"
+      >
+        <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+      </button>
+
+      <button
+        type="button"
+        onClick={goToNextSlide}
+        aria-label="Next slide"
+        className="hidden sm:flex absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-35 p-2.5 rounded-full bg-white/75 hover:bg-white text-slate-700 hover:text-[#5A1226] backdrop-blur-md shadow-md border border-stone-200/90 transition-all opacity-40 group-hover/hero:opacity-100 hover:scale-105 active:scale-95 cursor-pointer"
+      >
+        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+      </button>
+
       {/* 1. Full-Bleed Background Carousel Images with Subtle Parallax & Light Aesthetic */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {/* Parallax Layer with Headroom Translation */}
@@ -250,8 +290,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
           })}
         </div>
 
-        {/* Soft, Light & Warm Gradient Overlays:
-            Ensures text contrast on the left while allowing the vibrant campus architecture to be clearly visible on the right */}
+        {/* Soft, Light & Warm Gradient Overlays */}
         <div className="absolute inset-0 z-20 bg-gradient-to-r from-[#FAF8F5] via-[#FAF8F5]/85 to-[#FAF8F5]/25 lg:from-[#FAF8F5]/98 lg:via-[#FAF8F5]/70 lg:to-transparent" />
         <div className="absolute inset-0 z-20 bg-gradient-to-t from-[#FAF8F5]/90 via-transparent to-[#FAF8F5]/30" />
       </div>
@@ -262,7 +301,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Main Left Editorial Typography */}
-          <div key={currentSlide.id} className="lg:col-span-8 space-y-5 animate-in fade-in duration-500">
+          <div key={currentSlide.id} className="lg:col-span-8 space-y-4 sm:space-y-5 animate-in fade-in duration-500">
 
             {/* Main Headline with Dynamic Dual-Tone Typography */}
             <div className="space-y-1">
@@ -276,12 +315,31 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
               </h1>
             </div>
 
-            {/* Pill Tagline */}
-            <div className="inline-flex items-center self-start bg-gradient-to-r from-[#5A1226] via-[#721832] to-[#5A1226] text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-full shadow-md border border-[#E5A823]/40">
-              <span className="text-xs sm:text-sm md:text-base font-bold tracking-wide">
-                {currentSlide.taglinePill}
-              </span>
-            </div>
+            {/* Country flags for intakes slide, rendered cleanly without any pill or bar container */}
+            {currentSlide.id === 'intakes-2026' && (
+              <div className="flex flex-wrap items-center gap-2 pt-1 text-slate-700 text-xs sm:text-sm font-semibold">
+                <span className="text-slate-500">Destinations:</span>
+                <span className="inline-flex items-center gap-1 text-slate-800">
+                  <CountryFlag country="italy" size="sm" /> Italy
+                </span>
+                <span className="text-stone-300">•</span>
+                <span className="inline-flex items-center gap-1 text-slate-800">
+                  <CountryFlag country="thailand" size="sm" /> Thailand
+                </span>
+                <span className="text-stone-300">•</span>
+                <span className="inline-flex items-center gap-1 text-slate-800">
+                  <CountryFlag country="china" size="sm" /> China
+                </span>
+                <span className="text-stone-300">•</span>
+                <span className="inline-flex items-center gap-1 text-slate-800">
+                  <CountryFlag country="malaysia" size="sm" /> Malaysia
+                </span>
+                <span className="text-stone-300">•</span>
+                <span className="inline-flex items-center gap-1 text-slate-800">
+                  <CountryFlag country="cambodia" size="sm" /> Cambodia
+                </span>
+              </div>
+            )}
 
             {/* Descriptive Summary */}
             <p className="text-slate-700 text-xs sm:text-base md:text-lg leading-relaxed max-w-2xl font-medium">
@@ -301,16 +359,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
               ))}
             </div>
 
-            {/* Action Call to Action Buttons: Clean Executive Dock */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-1">
-              {/* Primary CTA: Navigates directly to dedicated Study Pathway page */}
+            {/* Action Call to Action Buttons */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-2">
+              {/* Dynamic Primary CTA based on slide */}
               <button
-                id="hero-cta-find-study-pathway"
-                onClick={() => setActivePage('pathway', { pathwayTab: 'why' })}
+                id="hero-cta-slide-action"
+                onClick={() => handleAction(currentSlide.ctaPrimaryAction)}
                 className="inline-flex items-center justify-center gap-2 px-5 sm:px-7 py-3 rounded-xl bg-[#5A1226] hover:bg-[#721832] text-white font-extrabold text-xs sm:text-sm tracking-wide shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 border border-[#E5A823]/40 cursor-pointer group"
               >
                 <Compass className="w-4 h-4 text-[#E5A823] group-hover:rotate-45 transition-transform" />
-                <span>Find Your Ideal Study Pathway</span>
+                <span>{currentSlide.ctaPrimaryText}</span>
                 <ChevronRight className="w-4 h-4 text-[#E5A823] group-hover:translate-x-0.5 transition-transform" />
               </button>
 
@@ -324,15 +382,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
                 <span>Budget & Cost Calculator</span>
               </button>
 
-              {/* Dynamic Contextual Action based on current slide */}
-              <button
-                id="hero-cta-slide-action"
-                onClick={() => handleAction(currentSlide.ctaPrimaryAction)}
-                className="hidden xl:inline-flex items-center justify-center gap-1.5 px-3.5 py-3 rounded-xl bg-stone-100 hover:bg-stone-200 text-slate-800 font-bold text-xs border border-stone-200 shadow-2xs transition-all cursor-pointer"
-              >
-                <span>{currentSlide.ctaPrimaryText}</span>
-              </button>
-
               {/* Direct Telephone Inquiry Link */}
               <a
                 id="hero-full-carousel-cta-phone"
@@ -342,56 +391,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
                 <PhoneCall className="w-3.5 h-3.5 text-[#E5A823]" />
                 <span>{agencyInfo.phone}</span>
               </a>
-            </div>
-
-            {/* Minimal Compact Indicator Dots Bar (as requested in notes) */}
-            <div className="pt-2 flex items-center gap-3">
-              <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-stone-200/90 shadow-2xs">
-                {/* Prev & Next arrows */}
-                <button
-                  onClick={goToPrevSlide}
-                  aria-label="Previous slide"
-                  className="p-1 rounded-full hover:bg-stone-100 text-slate-600 hover:text-[#5A1226] transition-colors cursor-pointer"
-                >
-                  <ChevronLeft className="w-3.5 h-3.5" />
-                </button>
-
-                {/* Minimal Dots */}
-                <div className="flex items-center gap-2 px-1">
-                  {HERO_SLIDES.map((slide, sIdx) => {
-                    const isActive = sIdx === currentSlideIndex;
-                    return (
-                      <button
-                        key={slide.id}
-                        onClick={() => setCurrentSlideIndex(sIdx)}
-                        title={slide.tabLabel}
-                        className={`transition-all duration-300 rounded-full cursor-pointer ${
-                          isActive
-                            ? 'w-6 h-2 bg-[#5A1226]'
-                            : 'w-2 h-2 bg-stone-300 hover:bg-stone-400'
-                        }`}
-                      />
-                    );
-                  })}
-                </div>
-
-                <button
-                  onClick={goToNextSlide}
-                  aria-label="Next slide"
-                  className="p-1 rounded-full hover:bg-stone-100 text-slate-600 hover:text-[#5A1226] transition-colors cursor-pointer"
-                >
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </button>
-
-                <span className="text-[10px] font-bold text-slate-400 pl-1 border-l border-stone-200">
-                  {`0${currentSlideIndex + 1} / 0${HERO_SLIDES.length}`}
-                </span>
-              </div>
-
-              {/* Active Category Tag Pill */}
-              <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${currentSlide.badgeColor}`}>
-                {currentSlide.category}
-              </span>
             </div>
 
           </div>

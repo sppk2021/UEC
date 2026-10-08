@@ -2,7 +2,6 @@ import React, { useState, Suspense, lazy } from 'react';
 import { WebsiteProvider, useWebsite } from './context/WebsiteContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
-import { OfflineIndicator } from './components/OfflineIndicator';
 
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
@@ -48,9 +47,6 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-slate-900 flex flex-col selection:bg-[#E5A823]/30 selection:text-[#5A1226]">
-      {/* Offline Status & Reconnection Indicator */}
-      <OfflineIndicator />
-
       {/* Main Top Navigation */}
       <Navbar onOpenConsultationModal={() => setIsModalOpen(true)} />
 
