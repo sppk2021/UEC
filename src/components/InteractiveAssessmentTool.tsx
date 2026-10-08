@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Compass,
   Sparkles,
@@ -32,8 +32,12 @@ import { useWebsite } from '../context/WebsiteContext';
 import { StudyDestination } from '../types';
 import { SideBySideBudgetComparator } from './SideBySideBudgetComparator';
 
-export const InteractiveAssessmentTool: React.FC = () => {
-  const { data, showToast, setActivePage } = useWebsite();
+export interface InteractiveAssessmentToolProps {
+  initialTab?: 'why' | 'suggestions' | 'budget' | 'universities' | 'comparison';
+}
+
+export const InteractiveAssessmentTool: React.FC<InteractiveAssessmentToolProps> = ({ initialTab }) => {
+  const { data, showToast, setActivePage, pathwayTab, setPathwayTab } = useWebsite();
   const destinations = data.destinations;
   const agencyInfo = data.agencyInfo;
 
@@ -47,7 +51,22 @@ export const InteractiveAssessmentTool: React.FC = () => {
   const [preferredRegion, setPreferredRegion] = useState<string>('any');
 
   const [showResult, setShowResult] = useState<boolean>(true);
-  const [activeResultTab, setActiveResultTab] = useState<'why' | 'suggestions' | 'budget' | 'universities' | 'comparison'>('why');
+  const [activeResultTab, setActiveResultTab] = useState<'why' | 'suggestions' | 'budget' | 'universities' | 'comparison'>(
+    initialTab || pathwayTab || 'why'
+  );
+
+  useEffect(() => {
+    if (initialTab && initialTab !== activeResultTab) {
+      setActiveResultTab(initialTab);
+    } else if (pathwayTab && pathwayTab !== activeResultTab) {
+      setActiveResultTab(pathwayTab);
+    }
+  }, [initialTab, pathwayTab]);
+
+  const handleTabChange = (tab: 'why' | 'suggestions' | 'budget' | 'universities' | 'comparison') => {
+    setActiveResultTab(tab);
+    setPathwayTab(tab);
+  };
 
   // ==========================================
   // EXPANDED INTERACTIVE BUDGET CALCULATOR STATE
@@ -1339,7 +1358,7 @@ CONTACT COUNSELOR FOR VERIFICATION & SCHOLARSHIP FILING:
                   return (
                     <button
                       key={tab.id}
-                      onClick={() => setActiveResultTab(tab.id as typeof activeResultTab)}
+                      onClick={() => handleTabChange(tab.id as typeof activeResultTab)}
                       className={`px-3.5 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap flex-shrink-0 ${
                         isActive
                           ? 'bg-[#5A1226] text-white shadow-xs'

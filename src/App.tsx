@@ -11,6 +11,7 @@ import { DestinationsPage } from './pages/DestinationsPage';
 import { OfficesPage } from './pages/OfficesPage';
 import { BlogPage } from './pages/BlogPage';
 import { ContactPage } from './pages/ContactPage';
+import { PathwayPage } from './pages/PathwayPage';
 
 const ConsultationModal = lazy(() =>
   import('./components/ConsultationModal').then((m) => ({ default: m.ConsultationModal }))
@@ -31,6 +32,8 @@ const AppContent: React.FC = () => {
         return <ServicesPage onOpenConsultationModal={() => setIsModalOpen(true)} />;
       case 'destinations':
         return <DestinationsPage onOpenConsultationModal={() => setIsModalOpen(true)} />;
+      case 'pathway':
+        return <PathwayPage onOpenConsultationModal={() => setIsModalOpen(true)} />;
       case 'offices':
         return <OfficesPage onOpenConsultationModal={() => setIsModalOpen(true)} />;
       case 'blog':

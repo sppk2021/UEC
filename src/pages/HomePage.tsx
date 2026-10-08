@@ -398,7 +398,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenConsultationModal }) =
 
       {/* 6. Interactive Student Pathway Profiler */}
       <Suspense fallback={null}>
-        <InteractiveAssessmentTool />
+        <InteractiveAssessmentTool initialTab="why" />
       </Suspense>
 
       {/* 7. Global Counseling Hubs Snapshot */}

@@ -18,7 +18,8 @@ import { INITIAL_WEBSITE_DATA } from '../data/agencyData';
 const LOCAL_STORAGE_KEY = 'ueca_website_custom_data_v4';
 const AUTH_STORAGE_KEY = 'ueca_admin_session_auth_v1';
 
-export type PageId = 'home' | 'about' | 'services' | 'destinations' | 'blog' | 'offices' | 'contact';
+export type PageId = 'home' | 'about' | 'services' | 'destinations' | 'pathway' | 'blog' | 'offices' | 'contact';
+export type PathwayTab = 'why' | 'budget' | 'comparison' | 'suggestions' | 'universities';
 
 // Parse initial page from browser URL or hash
 const getInitialPageFromUrl = (): PageId => {
@@ -30,10 +31,21 @@ const getInitialPageFromUrl = (): PageId => {
   if (target.startsWith('about')) return 'about';
   if (target.startsWith('service')) return 'services';
   if (target.startsWith('destination')) return 'destinations';
+  if (target.startsWith('pathway') || target.startsWith('calculator') || target.startsWith('budget') || target.startsWith('compare')) return 'pathway';
   if (target.startsWith('office')) return 'offices';
   if (target.startsWith('blog') || target.startsWith('stor')) return 'blog';
   if (target.startsWith('contact') || target.startsWith('assessment')) return 'contact';
   return 'home';
+};
+
+const getInitialPathwayTabFromUrl = (): PathwayTab => {
+  if (typeof window === 'undefined') return 'why';
+  const path = window.location.pathname.toLowerCase();
+  const hash = window.location.hash.toLowerCase();
+  const target = hash || path;
+  if (target.includes('calculator') || target.includes('budget')) return 'budget';
+  if (target.includes('compare') || target.includes('comparison')) return 'comparison';
+  return 'why';
 };
 
 // Check if current browser URL corresponds to the /admin route
@@ -56,7 +68,9 @@ const checkIsAdminRoute = (): boolean => {
 interface WebsiteContextType {
   data: WebsiteData;
   activePage: PageId;
-  setActivePage: (page: PageId, options?: { scrollToTop?: boolean; articleSlug?: string; destinationId?: string }) => void;
+  setActivePage: (page: PageId, options?: { scrollToTop?: boolean; articleSlug?: string; destinationId?: string; pathwayTab?: PathwayTab }) => void;
+  pathwayTab: PathwayTab;
+  setPathwayTab: (tab: PathwayTab) => void;
   selectedArticleSlug: string | null;
   setSelectedArticleSlug: (slug: string | null) => void;
   selectedDestinationId: string | null;
@@ -163,6 +177,10 @@ export const WebsiteProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return urlParams.get('destination') || null;
   });
 
+  const [pathwayTab, setPathwayTab] = useState<PathwayTab>(() => {
+    return getInitialPathwayTabFromUrl();
+  });
+
   const [isAdminOpen, setIsAdminOpenState] = useState<boolean>(() => {
     return checkIsAdminRoute();
   });
@@ -174,8 +192,11 @@ export const WebsiteProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const setActivePage = (page: PageId, options?: { scrollToTop?: boolean; articleSlug?: string; destinationId?: string }) => {
+  const setActivePage = (page: PageId, options?: { scrollToTop?: boolean; articleSlug?: string; destinationId?: string; pathwayTab?: PathwayTab }) => {
     setActivePageState(page);
+    if (options?.pathwayTab !== undefined) {
+      setPathwayTab(options.pathwayTab);
+    }
     if (options?.articleSlug !== undefined) {
       setSelectedArticleSlug(options.articleSlug);
     }
@@ -191,10 +212,13 @@ export const WebsiteProvider: React.FC<{ children: React.ReactNode }> = ({ child
       if (options?.articleSlug) {
         queryParts.push(`article=${encodeURIComponent(options.articleSlug)}`);
       }
+      if (options?.pathwayTab && options.pathwayTab !== 'why') {
+        queryParts.push(`tab=${encodeURIComponent(options.pathwayTab)}`);
+      }
       const queryString = queryParts.length > 0 ? `?${queryParts.join('&')}` : '';
       const targetHash = page === 'home' ? '' : `#${page}${queryString}`;
       window.history.pushState(
-        { page, articleSlug: options?.articleSlug, destinationId: options?.destinationId },
+        { page, articleSlug: options?.articleSlug, destinationId: options?.destinationId, pathwayTab: options?.pathwayTab },
         '',
         targetHash || window.location.pathname
       );
@@ -229,6 +253,17 @@ export const WebsiteProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
       const parsedPage = getInitialPageFromUrl();
       setActivePageState(parsedPage);
+
+      const parsedTab = getInitialPathwayTabFromUrl();
+      if (parsedPage === 'pathway') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabParam = urlParams.get('tab') as PathwayTab | null;
+        if (tabParam) {
+          setPathwayTab(tabParam);
+        } else if (parsedTab !== 'why') {
+          setPathwayTab(parsedTab);
+        }
+      }
 
       const urlParams = new URLSearchParams(window.location.search);
       const art = urlParams.get('article');
@@ -588,6 +623,8 @@ export const WebsiteProvider: React.FC<{ children: React.ReactNode }> = ({ child
       data,
       activePage,
       setActivePage,
+      pathwayTab,
+      setPathwayTab,
       selectedArticleSlug,
       setSelectedArticleSlug,
       selectedDestinationId,
@@ -633,7 +670,7 @@ export const WebsiteProvider: React.FC<{ children: React.ReactNode }> = ({ child
       toastMessage,
       showToast,
     }),
-    [data, activePage, selectedArticleSlug, selectedDestinationId, isAdminOpen, isAdminAuthenticated, toastMessage]
+    [data, activePage, pathwayTab, selectedArticleSlug, selectedDestinationId, isAdminOpen, isAdminAuthenticated, toastMessage]
   );
 
   return (

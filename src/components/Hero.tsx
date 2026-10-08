@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-  GraduationCap,
-  ShieldCheck,
-  Globe2,
   Compass,
   PhoneCall,
-  Calendar,
-  Sparkles,
-  Award,
-  Home,
-  Layers,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
-  ChevronDown,
+  Calculator,
 } from 'lucide-react';
-import { CrestLogo } from './CrestLogo';
 import { useWebsite } from '../context/WebsiteContext';
 
 interface HeroProps {
@@ -228,7 +219,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
   return (
     <section
       id="hero-section"
-      className="relative min-h-[640px] lg:min-h-[760px] flex flex-col justify-center overflow-hidden bg-[#FAF8F5] text-slate-900 border-b border-stone-200"
+      className="relative min-h-[560px] lg:min-h-[640px] flex flex-col justify-center overflow-hidden bg-[#FAF8F5] text-slate-900 border-b border-stone-200"
     >
       {/* 1. Full-Bleed Background Carousel Images with Subtle Parallax & Light Aesthetic */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -266,37 +257,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
       </div>
 
       {/* 2. Main Hero Content Container */}
-      <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 flex-1 flex flex-col justify-center w-full">
+      <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex-1 flex flex-col justify-center w-full">
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           {/* Main Left Editorial Typography */}
-          <div key={currentSlide.id} className="lg:col-span-8 space-y-6 animate-in fade-in duration-500">
-            
-            {/* Top Emblem & Brand Stamp & Dynamic Category Badge & Scene Locator */}
-            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-              <CrestLogo variant="full" />
-              <div className="h-6 w-px bg-stone-300 hidden sm:block" />
-              <span className="text-xs font-black uppercase tracking-widest text-[#5A1226] bg-[#5A1226]/8 px-3.5 py-1 rounded-full border border-[#5A1226]/20">
-                Official Educational Consultancy
-              </span>
-
-              <div
-                className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-extrabold shadow-2xs border ${currentSlide.badgeColor}`}
-              >
-                {currentSlide.categoryType === 'intake' && <Calendar className="w-3.5 h-3.5" />}
-                {currentSlide.categoryType === 'event' && <Sparkles className="w-3.5 h-3.5" />}
-                {currentSlide.categoryType === 'scholarship' && <Award className="w-3.5 h-3.5" />}
-                {currentSlide.categoryType === 'arrival' && <Home className="w-3.5 h-3.5" />}
-                <span>{currentSlide.category}</span>
-              </div>
-
-              {/* Campus Background Indicator Badge */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-stone-200/90 text-[11px] font-bold text-slate-700 shadow-2xs">
-                <span className="w-2 h-2 rounded-full bg-[#E5A823]" />
-                <span className="truncate max-w-[200px] sm:max-w-none">📍 Campus: {currentSlide.sceneTitle}</span>
-              </div>
-            </div>
+          <div key={currentSlide.id} className="lg:col-span-8 space-y-5 animate-in fade-in duration-500">
 
             {/* Main Headline with Dynamic Dual-Tone Typography */}
             <div className="space-y-1">
@@ -335,26 +301,35 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
               ))}
             </div>
 
-            {/* Action Call to Action Buttons: Clean 2-Button Executive Dock */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-2">
-              {/* Primary CTA: Find Your Ideal Study Pathway (triggers smooth scroll to featured destinations) */}
+            {/* Action Call to Action Buttons: Clean Executive Dock */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-1">
+              {/* Primary CTA: Navigates directly to dedicated Study Pathway page */}
               <button
                 id="hero-cta-find-study-pathway"
-                onClick={scrollToFeaturedDestinations}
-                className="inline-flex items-center justify-center gap-2.5 px-6 sm:px-8 py-3.5 rounded-xl bg-[#5A1226] hover:bg-[#721832] text-white font-extrabold text-sm tracking-wide shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 border border-[#E5A823]/40 cursor-pointer group"
+                onClick={() => setActivePage('pathway', { pathwayTab: 'why' })}
+                className="inline-flex items-center justify-center gap-2 px-5 sm:px-7 py-3 rounded-xl bg-[#5A1226] hover:bg-[#721832] text-white font-extrabold text-xs sm:text-sm tracking-wide shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 border border-[#E5A823]/40 cursor-pointer group"
               >
                 <Compass className="w-4 h-4 text-[#E5A823] group-hover:rotate-45 transition-transform" />
                 <span>Find Your Ideal Study Pathway</span>
-                <ChevronDown className="w-4 h-4 text-[#E5A823] group-hover:translate-y-0.5 transition-transform" />
+                <ChevronRight className="w-4 h-4 text-[#E5A823] group-hover:translate-x-0.5 transition-transform" />
+              </button>
+
+              {/* Calculator CTA: Direct access to Budget & Living Cost Calculator */}
+              <button
+                id="hero-cta-budget-calculator"
+                onClick={() => setActivePage('pathway', { pathwayTab: 'budget' })}
+                className="inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-3 rounded-xl bg-white hover:bg-stone-50 text-slate-800 hover:text-[#5A1226] font-bold text-xs sm:text-sm border border-stone-300 hover:border-[#E5A823] shadow-2xs transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer group"
+              >
+                <Calculator className="w-4 h-4 text-[#E5A823]" />
+                <span>Budget & Cost Calculator</span>
               </button>
 
               {/* Dynamic Contextual Action based on current slide */}
               <button
                 id="hero-cta-slide-action"
                 onClick={() => handleAction(currentSlide.ctaPrimaryAction)}
-                className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3.5 rounded-xl bg-white hover:bg-stone-50 text-slate-800 hover:text-[#5A1226] font-bold text-sm border border-stone-300 hover:border-[#5A1226] shadow-2xs transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer group"
+                className="hidden xl:inline-flex items-center justify-center gap-1.5 px-3.5 py-3 rounded-xl bg-stone-100 hover:bg-stone-200 text-slate-800 font-bold text-xs border border-stone-200 shadow-2xs transition-all cursor-pointer"
               >
-                <GraduationCap className="w-4 h-4 text-[#5A1226]" />
                 <span>{currentSlide.ctaPrimaryText}</span>
               </button>
 
@@ -362,149 +337,115 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
               <a
                 id="hero-full-carousel-cta-phone"
                 href={`tel:${agencyInfo.cleanPhone}`}
-                className="inline-flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-[#5A1226] transition-colors py-2 px-3 rounded-lg hover:bg-stone-100/80"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-[#5A1226] transition-colors py-2 px-2.5 rounded-lg hover:bg-stone-100/80"
               >
                 <PhoneCall className="w-3.5 h-3.5 text-[#E5A823]" />
-                <span>Call: {agencyInfo.phone}</span>
+                <span>{agencyInfo.phone}</span>
               </a>
             </div>
 
-            {/* Unified Sleek Slide Segment Bar */}
-            <div className="pt-2 max-w-2xl">
-              <div className="bg-white/95 backdrop-blur-md rounded-2xl p-2 sm:p-2.5 border border-stone-200 shadow-sm">
-                <div className="flex items-center gap-2">
-                  
-                  {/* Minimal Previous / Next Slide Controls */}
-                  <div className="flex items-center gap-1 pr-2 border-r border-stone-200">
-                    <button
-                      onClick={goToPrevSlide}
-                      aria-label="Previous slide"
-                      className="p-1.5 rounded-lg hover:bg-stone-100 text-slate-600 hover:text-[#5A1226] transition-colors cursor-pointer"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={goToNextSlide}
-                      aria-label="Next slide"
-                      className="p-1.5 rounded-lg hover:bg-stone-100 text-slate-600 hover:text-[#5A1226] transition-colors cursor-pointer"
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-                  </div>
+            {/* Minimal Compact Indicator Dots Bar (as requested in notes) */}
+            <div className="pt-2 flex items-center gap-3">
+              <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-stone-200/90 shadow-2xs">
+                {/* Prev & Next arrows */}
+                <button
+                  onClick={goToPrevSlide}
+                  aria-label="Previous slide"
+                  className="p-1 rounded-full hover:bg-stone-100 text-slate-600 hover:text-[#5A1226] transition-colors cursor-pointer"
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                </button>
 
-                  {/* 4 Segmented Slide Progress Items */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2 flex-1">
-                    {HERO_SLIDES.map((slide, sIdx) => {
-                      const isActive = sIdx === currentSlideIndex;
-                      return (
-                        <button
-                          key={slide.id}
-                          onClick={() => setCurrentSlideIndex(sIdx)}
-                          className={`text-left p-1.5 sm:p-2 rounded-xl transition-all cursor-pointer group ${
-                            isActive
-                              ? 'bg-stone-50 border border-stone-200/80 shadow-2xs'
-                              : 'hover:bg-stone-50/70 border border-transparent'
-                          }`}
-                        >
-                          {/* Segment Progress Line */}
-                          <div className="w-full h-1 bg-stone-200 rounded-full overflow-hidden mb-1.5">
-                            {isActive ? (
-                              <div
-                                key={`progress-${sIdx}-${currentSlideIndex}`}
-                                className="h-full bg-gradient-to-r from-[#5A1226] to-[#E5A823] animate-hero-progress"
-                              />
-                            ) : (
-                              <div className="h-full w-0" />
-                            )}
-                          </div>
-
-                          {/* Slide Number & Title */}
-                          <div className="flex items-center gap-1.5">
-                            <span
-                              className={`text-[10px] font-black uppercase tracking-wider ${
-                                isActive ? 'text-[#C2850A]' : 'text-slate-400'
-                              }`}
-                            >
-                              {`0${sIdx + 1}`}
-                            </span>
-                            <span
-                              className={`text-xs font-bold truncate ${
-                                isActive
-                                  ? 'text-[#5A1226]'
-                                  : 'text-slate-600 group-hover:text-slate-900'
-                              }`}
-                            >
-                              {slide.tabLabel.replace(/^\d+\.\s*/, '')}
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-
+                {/* Minimal Dots */}
+                <div className="flex items-center gap-2 px-1">
+                  {HERO_SLIDES.map((slide, sIdx) => {
+                    const isActive = sIdx === currentSlideIndex;
+                    return (
+                      <button
+                        key={slide.id}
+                        onClick={() => setCurrentSlideIndex(sIdx)}
+                        title={slide.tabLabel}
+                        className={`transition-all duration-300 rounded-full cursor-pointer ${
+                          isActive
+                            ? 'w-6 h-2 bg-[#5A1226]'
+                            : 'w-2 h-2 bg-stone-300 hover:bg-stone-400'
+                        }`}
+                      />
+                    );
+                  })}
                 </div>
+
+                <button
+                  onClick={goToNextSlide}
+                  aria-label="Next slide"
+                  className="p-1 rounded-full hover:bg-stone-100 text-slate-600 hover:text-[#5A1226] transition-colors cursor-pointer"
+                >
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+
+                <span className="text-[10px] font-bold text-slate-400 pl-1 border-l border-stone-200">
+                  {`0${currentSlideIndex + 1} / 0${HERO_SLIDES.length}`}
+                </span>
               </div>
+
+              {/* Active Category Tag Pill */}
+              <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${currentSlide.badgeColor}`}>
+                {currentSlide.category}
+              </span>
             </div>
 
           </div>
 
-          {/* Right Column: 3 Core Assurances Dock & Quick Overview */}
+          {/* Right Column: Latest Announcements & Stories from Blogs */}
           <div className="lg:col-span-4 hidden lg:flex flex-col space-y-4">
             
-            <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-6 border-2 border-stone-200 shadow-xl space-y-5">
+            <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border-2 border-stone-200 shadow-xl space-y-4">
               
               <div className="flex items-center justify-between pb-3 border-b border-stone-200">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#E5A823] animate-pulse" />
                   <span className="text-xs font-black uppercase tracking-wider text-[#5A1226]">
-                    Agency Assurances
+                    Announcements & Stories
                   </span>
                 </div>
-                <span className="text-[11px] font-bold text-slate-500">
-                  {currentSlideIndex + 1} of {HERO_SLIDES.length}
+                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-200">
+                  Blogs & News
                 </span>
               </div>
 
-              {/* 3 Value Pillars */}
-              <div className="space-y-3 text-xs">
-                <div className="flex items-start gap-3 p-3 rounded-2xl bg-[#FAF8F5] border border-stone-200/90 hover:border-[#5A1226]/40 transition-colors">
-                  <div className="p-2 rounded-xl bg-[#5A1226]/10 text-[#5A1226]">
-                    <Globe2 className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-slate-900 text-sm">5 Global Hubs</p>
-                    <p className="text-slate-600 text-xs">Italy, Thailand, China, Malaysia & Cambodia</p>
-                  </div>
-                </div>
+              {/* List of 3 Latest Blog Announcements */}
+              <div className="space-y-3">
+                {(data.blogPosts || []).slice(0, 3).map((post) => (
+                  <div
+                    key={post.id}
+                    onClick={() => setActivePage('blog', { articleSlug: post.slug })}
+                    className="p-3 rounded-2xl bg-[#FAF8F5] hover:bg-white border border-stone-200 hover:border-[#E5A823] transition-all cursor-pointer group shadow-2xs"
+                  >
+                    <div className="flex items-center justify-between text-[10px] text-slate-400 mb-1">
+                      <span className="px-2 py-0.2 rounded font-bold bg-[#5A1226]/8 text-[#5A1226]">
+                        {post.category}
+                      </span>
+                      <span>{post.publishedDate}</span>
+                    </div>
 
-                <div className="flex items-start gap-3 p-3 rounded-2xl bg-[#FAF8F5] border border-stone-200/90 hover:border-[#5A1226]/40 transition-colors">
-                  <div className="p-2 rounded-xl bg-[#5A1226]/10 text-[#5A1226]">
-                    <ShieldCheck className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-slate-900 text-sm">Zero Markups</p>
-                    <p className="text-slate-600 text-xs">100% Direct Official Institution Fees</p>
-                  </div>
-                </div>
+                    <h4 className="text-xs font-bold text-slate-900 group-hover:text-[#5A1226] transition-colors line-clamp-2 leading-snug">
+                      {post.title}
+                    </h4>
 
-                <div className="flex items-start gap-3 p-3 rounded-2xl bg-[#FAF8F5] border border-stone-200/90 hover:border-[#5A1226]/40 transition-colors">
-                  <div className="p-2 rounded-xl bg-[#5A1226]/10 text-[#5A1226]">
-                    <Compass className="w-4 h-4" />
+                    <p className="text-[11px] text-slate-500 mt-1 line-clamp-1">
+                      {post.subtitle || post.summary}
+                    </p>
                   </div>
-                  <div>
-                    <p className="font-bold text-slate-900 text-sm">Full Transition</p>
-                    <p className="text-slate-600 text-xs">Safe Care from Landing to Dorm Check-In</p>
-                  </div>
-                </div>
+                ))}
               </div>
 
-              {/* Quick Prompt Button to Services */}
+              {/* Direct Link to Blogs & Stories Page */}
               <button
-                onClick={() => setActivePage('services')}
-                className="w-full py-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-[#5A1226] font-bold text-xs flex items-center justify-center gap-1.5 transition-colors border border-stone-200 cursor-pointer"
+                onClick={() => setActivePage('blog')}
+                className="w-full py-2.5 rounded-xl bg-[#5A1226] hover:bg-[#721832] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors shadow-xs cursor-pointer"
               >
-                <Layers className="w-3.5 h-3.5 text-[#E5A823]" />
-                <span>Explore Full Service Breakdown</span>
+                <span>View All Announcements & Stories</span>
+                <ChevronRight className="w-3.5 h-3.5 text-[#E5A823]" />
               </button>
 
             </div>

@@ -5,13 +5,13 @@ import {
   MapPin,
   Menu,
   X,
-  GraduationCap,
   MessageCircle,
   ChevronRight,
   Sparkles,
+  GraduationCap,
 } from 'lucide-react';
 import { CrestLogo } from './CrestLogo';
-import { useWebsite, PageId } from '../context/WebsiteContext';
+import { useWebsite, PageId, PathwayTab } from '../context/WebsiteContext';
 
 interface NavbarProps {
   onOpenConsultationModal?: () => void;
@@ -20,7 +20,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { data, activePage, setActivePage } = useWebsite();
+  const { data, activePage, setActivePage, pathwayTab } = useWebsite();
   const { agencyInfo } = data;
 
   useEffect(() => {
@@ -31,20 +31,33 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks: { name: string; pageId: PageId }[] = [
+  const navLinks: { name: string; pageId: PageId; targetTab?: PathwayTab }[] = [
     { name: 'Home', pageId: 'home' },
     { name: 'About Us', pageId: 'about' },
     { name: 'Core Services', pageId: 'services' },
     { name: 'Destinations', pageId: 'destinations' },
+    { name: 'Find Study Pathway', pageId: 'pathway', targetTab: 'why' },
+    { name: 'Budget Calculator', pageId: 'pathway', targetTab: 'budget' },
     { name: 'Offices', pageId: 'offices' },
     { name: 'Blog & Stories', pageId: 'blog' },
-    { name: 'Contact & Assessment', pageId: 'contact' },
+    { name: 'Contact', pageId: 'contact' },
   ];
 
-  const handleNavClick = (e: React.MouseEvent, pageId: PageId) => {
+  const handleNavClick = (e: React.MouseEvent, pageId: PageId, targetTab?: PathwayTab) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    setActivePage(pageId);
+    setActivePage(pageId, { pathwayTab: targetTab });
+  };
+
+  const isLinkActive = (link: (typeof navLinks)[0]) => {
+    if (activePage !== link.pageId) return false;
+    if (link.pageId === 'pathway') {
+      if (link.targetTab === 'budget') {
+        return pathwayTab === 'budget' || pathwayTab === 'comparison';
+      }
+      return pathwayTab === 'why' || pathwayTab === 'suggestions' || pathwayTab === 'universities';
+    }
+    return true;
   };
 
   return (
@@ -116,16 +129,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
           </a>
 
           {/* Desktop Nav Links */}
-          <div className="hidden lg:flex items-center gap-4 xl:gap-6">
+          <div className="hidden lg:flex items-center gap-2 xl:gap-4 2xl:gap-5">
             {navLinks.map((link) => {
-              const isActive = activePage === link.pageId;
+              const active = isLinkActive(link);
               return (
                 <button
                   key={link.name}
                   id={`nav-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
-                  onClick={(e) => handleNavClick(e, link.pageId)}
-                  className={`text-sm font-semibold transition-all py-1 border-b-2 cursor-pointer ${
-                    isActive
+                  onClick={(e) => handleNavClick(e, link.pageId, link.targetTab)}
+                  className={`text-xs xl:text-sm font-semibold transition-all py-1 border-b-2 cursor-pointer whitespace-nowrap ${
+                    active
                       ? 'text-[#5A1226] font-bold border-[#E5A823]'
                       : 'text-slate-700 hover:text-[#5A1226] border-transparent hover:border-slate-300'
                   }`}
@@ -171,21 +184,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultationModal }) => {
           <div className="lg:hidden bg-white border-b border-stone-200 px-5 pt-3 pb-6 shadow-xl space-y-3 animate-in fade-in slide-in-from-top-4 duration-200">
             <div className="flex flex-col space-y-1.5 pt-2 border-t border-stone-100">
               {navLinks.map((link) => {
-                const isActive = activePage === link.pageId;
+                const active = isLinkActive(link);
                 return (
                   <button
                     key={link.name}
                     id={`mobile-nav-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
-                    onClick={(e) => handleNavClick(e, link.pageId)}
+                    onClick={(e) => handleNavClick(e, link.pageId, link.targetTab)}
                     className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left font-semibold text-sm transition-colors cursor-pointer ${
-                      isActive
+                      active
                         ? 'bg-[#5A1226] text-white font-bold'
                         : 'text-slate-800 hover:bg-[#5A1226]/5 hover:text-[#5A1226]'
                     }`}
                   >
                     <span>{link.name}</span>
                     <ChevronRight
-                      className={`w-4 h-4 ${isActive ? 'text-[#E5A823]' : 'text-slate-400'}`}
+                      className={`w-4 h-4 ${active ? 'text-[#E5A823]' : 'text-slate-400'}`}
                     />
                   </button>
                 );
